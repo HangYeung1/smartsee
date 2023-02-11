@@ -2,7 +2,7 @@ import xml.etree.ElementTree as et
 import os
 
 
-# Gets XML annotation data
+# Get XML annotation data
 def extract_from_xml(xml_file):
     root = et.parse(xml_file).getroot()
 
@@ -27,7 +27,7 @@ def extract_from_xml(xml_file):
                 image_size[subelem.tag] = int(subelem.text)
             annotation_dict['size'] = image_size
 
-        # Adds bounding box(es)
+        # Add bounding box(es)
         elif elem.tag == "object":
             bbox = {}
             for subelem in elem:
@@ -42,24 +42,31 @@ def extract_from_xml(xml_file):
     return annotation_dict
 
 
-# Finds object classes
+# Find object class names and map to ids
+def class_names_to_id_map(annotations_directory):
+    class_name_list = []
 
-def find_classes(annotations_directory):
-    class_list = []
-
-    # Iterates through set directory
+    # Iterate through set directory
     for filename in os.listdir(annotations_directory):
         xml_file = os.path.join(annotations_directory, filename)
         root = et.parse(xml_file).getroot()
 
-        # Adds to class to list if needed
+        # Add to class to list if needed
         for elem in root:
             if elem.tag == "object":
                 for subelem in elem:
-                    if subelem.tag == "name" and subelem.text not in class_list:
-                        class_list.append(subelem.text)
+                    if subelem.tag == "name" and subelem.text not in class_name_list:
+                        class_name_list.append(subelem.text)
 
-    return class_list
+    class_name_id_map = {}
+    i = 0
+
+    # Iterate to assign ids
+    for class_name in class_name_list:
+        class_name_id_map[class_name] = i
+        i += 1
+
+    return class_name_id_map
 
 
-print(extract_from_xml('/model/openlogo/Annotations/3m1.xml'))
+print(class_names_to_id_map('model/openlogo/annotations'))
