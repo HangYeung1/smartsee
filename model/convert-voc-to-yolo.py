@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as et
+import os
 
 
 # Gets XML annotation data
@@ -39,6 +40,26 @@ def extract_from_xml(xml_file):
             annotation_dict['bnboxes'].append(bbox)
 
     return annotation_dict
+
+
+# Finds object classes
+
+def find_classes(annotations_directory):
+    class_list = []
+
+    # Iterates through set directory
+    for filename in os.listdir(annotations_directory):
+        xml_file = os.path.join(annotations_directory, filename)
+        root = et.parse(xml_file).getroot()
+
+        # Adds to class to list if needed
+        for elem in root:
+            if elem.tag == "object":
+                for subelem in elem:
+                    if subelem.tag == "name" and subelem.text not in class_list:
+                        class_list.append(subelem.text)
+
+    return class_list
 
 
 print(extract_from_xml('/model/openlogo/Annotations/3m1.xml'))
