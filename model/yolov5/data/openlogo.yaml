@@ -1,7 +1,7 @@
 path: ../datasets/openlogo
 train: images/train
-val: images/test
-test:
+val: images/val
+test: images/test
 
 names:
   0: 3m
