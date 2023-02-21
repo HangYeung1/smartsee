@@ -1,19 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
-export default function SearchScreen({ navigation }) {
+export default function BreakdownScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Text style={styles.body}>Search Screen</Text>
-      <Text onPress={() => navigation.navigate("Camera")} style={styles.body}>
-        To Camera
-      </Text>
-      <Text
-        onPress={() => navigation.navigate("Breakdown")}
-        style={styles.body}
-      >
-        To Breakdown
+      <Text onPress={() => navigation.navigate("Search")} style={styles.body}>
+        Breakdown Screen
       </Text>
     </View>
   );

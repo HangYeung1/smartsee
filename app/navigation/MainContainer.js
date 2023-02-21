@@ -7,6 +7,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 // Screens
 import SearchScreen from "./screens/SearchScreen";
+import BreakdownScreen from "./screens/BreakdownScreen";
 
 import CameraScreen from "./screens/CameraScreen";
 import SettingsScreen from "./screens/SettingsScreen";
@@ -20,6 +21,7 @@ const recentsStackName = "RecentsStack";
 
 // Search screen stack names
 const searchName = "Search";
+const breakdownName = "Breakdown";
 
 // Camera screen stack names
 const cameraName = "Camera";
@@ -37,6 +39,11 @@ function SearchStack() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name={searchName} component={SearchScreen} />
+      <Stack.Screen
+        name={breakdownName}
+        component={BreakdownScreen}
+        options={{ presentation: "modal" }}
+      />
     </Stack.Navigator>
   );
 }
@@ -48,7 +55,11 @@ function CameraStack() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name={cameraName} component={CameraScreen} />
-      <Stack.Screen name={settingsName} component={SettingsScreen} />
+      <Stack.Screen
+        name={settingsName}
+        component={SettingsScreen}
+        options={{ presentation: "modal" }}
+      />
     </Stack.Navigator>
   );
 }
