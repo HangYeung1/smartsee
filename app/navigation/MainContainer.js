@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -72,19 +73,37 @@ export default function MainContainer() {
               }
               return <Ionicons name={iconName} size={size + 5} color={color} />;
             },
-            tabBarActiveTintColor: "mediumseagreen",
-            tabBarInactiveTintColor: "darkgrey",
+            tabBarLabel: ({ focused, color }) => {
+              let label;
+              let routeName = route.name;
+
+              if (routeName === cameraStackName) {
+                label = "Camera";
+              } else if (routeName === searchStackName) {
+                label = "Search";
+              } else if (routeName === recentsStackName) {
+                label = "Recents";
+              }
+              return (
+                <Text
+                  style={{
+                    color: color,
+                    fontSize: 10,
+                    marginTop: -10,
+                    fontWeight: focused ? "bold" : "normal",
+                  }}
+                >
+                  {label}
+                </Text>
+              );
+            },
             tabBarStyle: {
               height: 90,
               backgroundColor: "black",
               borderTopWidth: 0,
             },
-            tabBarLabelStyle: {
-              fontSize: 10,
-              marginTop: -10,
-            },
-
-            // Hide the header
+            tabBarActiveTintColor: "mediumseagreen",
+            tabBarInactiveTintColor: "darkgrey",
             headerShown: false,
           })
         }
