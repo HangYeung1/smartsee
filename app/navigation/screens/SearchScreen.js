@@ -1,12 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
-export default function SearchScreen({navigation}) {
+export default function SearchScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text
-        onPress={() => navigation.navigate('Camera')}
-        style={styles.body}
-        >Search Screen</Text>
+      <StatusBar style="auto" />
+      <Text onPress={() => navigation.navigate("Camera")} style={styles.body}>
+        Search Screen
+      </Text>
     </View>
   );
 }
@@ -14,12 +15,12 @@ export default function SearchScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   body: {
     fontSize: 26,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
