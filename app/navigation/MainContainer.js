@@ -1,7 +1,7 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 // Screens
@@ -9,10 +9,45 @@ import CameraScreen from "./screens/CameraScreen";
 import SearchScreen from "./screens/SearchScreen";
 import RecentsScreen from "./screens/RecentsScreen";
 
-// Screen names
-const cameraName = "Camera";
+// Screen tab names
+const searchStackName = "SearchStack";
+const cameraStackName = "CameraStack";
+const recentsStackName = "RecentsStack";
+
+// Search screen stack names
 const searchName = "Search";
+
+// Camera screen stack names
+const cameraName = "Camera";
+
+// Recents screen stack names
 const recentsName = "Recents";
+
+const Stack = createStackNavigator();
+
+function SearchStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name={searchName} component={SearchScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function CameraStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name={cameraName} component={CameraScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function RecentsStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name={recentsName} component={RecentsScreen} />
+    </Stack.Navigator>
+  );
+}
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +55,7 @@ export default function MainContainer() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName={cameraName}
+        initialRouteName={cameraStackName}
         screenOptions={
           // Tab bar styling
           ({ route }) => ({
@@ -28,11 +63,11 @@ export default function MainContainer() {
               let iconName;
               let routeName = route.name;
 
-              if (routeName === cameraName) {
+              if (routeName === cameraStackName) {
                 iconName = focused ? "camera" : "camera-outline";
-              } else if (routeName === searchName) {
+              } else if (routeName === searchStackName) {
                 iconName = focused ? "search" : "search-outline";
-              } else if (routeName === recentsName) {
+              } else if (routeName === recentsStackName) {
                 iconName = focused ? "time" : "time-outline";
               }
               return <Ionicons name={iconName} size={size + 5} color={color} />;
@@ -54,9 +89,9 @@ export default function MainContainer() {
           })
         }
       >
-        <Tab.Screen name={searchName} component={SearchScreen} />
-        <Tab.Screen name={cameraName} component={CameraScreen} />
-        <Tab.Screen name={recentsName} component={RecentsScreen} />
+        <Tab.Screen name={searchStackName} component={SearchStack} />
+        <Tab.Screen name={cameraStackName} component={CameraStack} />
+        <Tab.Screen name={recentsStackName} component={RecentsStack} />
       </Tab.Navigator>
     </NavigationContainer>
   );
