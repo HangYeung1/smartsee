@@ -6,12 +6,12 @@ import { Camera, CameraType } from "expo-camera";
 import { useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-function CameraView() {
+export default function CameraScreen({ navigation }) {
+  const insets = useSafeAreaInsets();
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
 
   if (!permission) {
-    // Camera permissions are still loading
     return <View />;
   }
 
@@ -33,45 +33,54 @@ function CameraView() {
     );
   }
 
-  function takePicture() {}
-
-  function openGallery() {}
-
   return (
-    <View style={{ flex: 1, justifyContent: "center" }}>
-      <Camera style={{ flex: 1 }} type={type}>
-        <View style={styles.overlayContainer}>
-          <View style={styles.topButtonsContainer}>
-            <View style={styles.smallButton}>
-              <Ionicons name="settings-outline" size={30} color="white" />
+    <View
+      style={{
+        flex: 1,
+        paddingTop: insets.top,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
+        backgroundColor: "black",
+      }}
+    >
+      <StatusBar style="light" />
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <Camera style={{ flex: 1 }} type={type}>
+          <View style={styles.overlayContainer}>
+            <View style={styles.topButtonsContainer}>
+              <Pressable onPress={() => navigation.navigate("Settings")}>
+                <View style={styles.smallButton}>
+                  <Ionicons name="settings-outline" size={30} color="white" />
+                </View>
+              </Pressable>
+            </View>
+
+            <View style={styles.botButtonsContainer}>
+              <Pressable>
+                <View style={styles.smallButton}>
+                  <Ionicons name="images-outline" size={30} color="white" />
+                </View>
+              </Pressable>
+
+              <Pressable>
+                <View style={styles.largeButton}>
+                  <View style={styles.largeRing} />
+                </View>
+              </Pressable>
+
+              <Pressable onPress={toggleCameraType}>
+                <View style={styles.smallButton}>
+                  <Ionicons
+                    name="camera-reverse-outline"
+                    size={35}
+                    color="white"
+                  />
+                </View>
+              </Pressable>
             </View>
           </View>
-
-          <View style={styles.botButtonsContainer}>
-            <Pressable>
-              <View style={styles.smallButton}>
-                <Ionicons name="images-outline" size={30} color="white" />
-              </View>
-            </Pressable>
-
-            <Pressable>
-              <View style={styles.largeButton}>
-                <View style={styles.largeRing} />
-              </View>
-            </Pressable>
-
-            <Pressable onPress={toggleCameraType}>
-              <View style={styles.smallButton}>
-                <Ionicons
-                  name="camera-reverse-outline"
-                  size={35}
-                  color="white"
-                />
-              </View>
-            </Pressable>
-          </View>
-        </View>
-      </Camera>
+        </Camera>
+      </View>
     </View>
   );
 }
@@ -119,22 +128,3 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
 });
-
-export default function CameraScreen({ navigation }) {
-  const insets = useSafeAreaInsets();
-
-  return (
-    <View
-      style={{
-        flex: 1,
-        paddingTop: insets.top,
-        paddingLeft: insets.left,
-        paddingRight: insets.right,
-        backgroundColor: "black",
-      }}
-    >
-      <StatusBar style="light" />
-      <CameraView />
-    </View>
-  );
-}

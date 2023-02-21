@@ -1,13 +1,16 @@
 import * as React from "react";
-import { Text } from "react-native";
+import { Modal, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 // Screens
-import CameraScreen from "./screens/CameraScreen";
 import SearchScreen from "./screens/SearchScreen";
+
+import CameraScreen from "./screens/CameraScreen";
+import SettingsScreen from "./screens/SettingsScreen";
+
 import RecentsScreen from "./screens/RecentsScreen";
 
 // Screen tab names
@@ -20,6 +23,7 @@ const searchName = "Search";
 
 // Camera screen stack names
 const cameraName = "Camera";
+const settingsName = "Settings";
 
 // Recents screen stack names
 const recentsName = "Recents";
@@ -28,7 +32,10 @@ const Stack = createStackNavigator();
 
 function SearchStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      initialRouteName={searchName}
+      screenOptions={{ headerShown: false }}
+    >
       <Stack.Screen name={searchName} component={SearchScreen} />
     </Stack.Navigator>
   );
@@ -36,15 +43,22 @@ function SearchStack() {
 
 function CameraStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      initialRouteName={cameraName}
+      screenOptions={{ headerShown: false }}
+    >
       <Stack.Screen name={cameraName} component={CameraScreen} />
+      <Stack.Screen name={settingsName} component={SettingsScreen} />
     </Stack.Navigator>
   );
 }
 
 function RecentsStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      initialRouteName={recentsName}
+      screenOptions={{ headerShown: false }}
+    >
       <Stack.Screen name={recentsName} component={RecentsScreen} />
     </Stack.Navigator>
   );
