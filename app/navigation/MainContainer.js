@@ -12,12 +12,12 @@ import BreakdownScreen from "./screens/BreakdownScreen";
 import CameraScreen from "./screens/CameraScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 
-import RecentsScreen from "./screens/RecentsScreen";
+import SavedScreen from "./screens/SavedScreen";
 
 // Screen tab names
 const searchStackName = "SearchStack";
 const cameraStackName = "CameraStack";
-const recentsStackName = "RecentsStack";
+const savedStackName = "SavedStack";
 
 // Search screen stack names
 const searchName = "Search";
@@ -27,8 +27,8 @@ const breakdownName = "Breakdown";
 const cameraName = "Camera";
 const settingsName = "Settings";
 
-// Recents screen stack names
-const recentsName = "Recents";
+// Saved screen stack names
+const savedName = "Saved";
 
 const Stack = createStackNavigator();
 
@@ -64,13 +64,13 @@ function CameraStack() {
   );
 }
 
-function RecentsStack() {
+function SavedStack() {
   return (
     <Stack.Navigator
-      initialRouteName={recentsName}
+      initialRouteName={savedName}
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name={recentsName} component={RecentsScreen} />
+      <Stack.Screen name={savedName} component={SavedScreen} />
     </Stack.Navigator>
   );
 }
@@ -93,8 +93,8 @@ export default function MainContainer() {
                 iconName = focused ? "camera" : "camera-outline";
               } else if (routeName === searchStackName) {
                 iconName = focused ? "search" : "search-outline";
-              } else if (routeName === recentsStackName) {
-                iconName = focused ? "time" : "time-outline";
+              } else if (routeName === savedStackName) {
+                iconName = focused ? "library" : "library-outline";
               }
               return <Ionicons name={iconName} size={size + 5} color={color} />;
             },
@@ -106,8 +106,8 @@ export default function MainContainer() {
                 label = "Camera";
               } else if (routeName === searchStackName) {
                 label = "Search";
-              } else if (routeName === recentsStackName) {
-                label = "Recents";
+              } else if (routeName === savedStackName) {
+                label = "Saved";
               }
               return (
                 <Text
@@ -135,7 +135,7 @@ export default function MainContainer() {
       >
         <Tab.Screen name={searchStackName} component={SearchStack} />
         <Tab.Screen name={cameraStackName} component={CameraStack} />
-        <Tab.Screen name={recentsStackName} component={RecentsStack} />
+        <Tab.Screen name={savedStackName} component={SavedStack} />
       </Tab.Navigator>
     </NavigationContainer>
   );
