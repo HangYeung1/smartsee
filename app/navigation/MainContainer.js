@@ -12,12 +12,12 @@ import BreakdownScreen from "./screens/BreakdownScreen";
 import CameraScreen from "./screens/CameraScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 
-import SavedScreen from "./screens/SavedScreen";
+import LibraryScreen from "./screens/LibraryScreen";
 
 // Screen tab names
 const searchStackName = "SearchStack";
 const cameraStackName = "CameraStack";
-const savedStackName = "SavedStack";
+const libraryStackName = "LibraryStack";
 
 // Search screen stack names
 const searchName = "Search";
@@ -27,8 +27,8 @@ const breakdownName = "Breakdown";
 const cameraName = "Camera";
 const settingsName = "Settings";
 
-// Saved screen stack names
-const savedName = "Saved";
+// Library screen stack names
+const libraryName = "Library";
 
 const Stack = createStackNavigator();
 
@@ -64,13 +64,13 @@ function CameraStack() {
   );
 }
 
-function SavedStack() {
+function LibraryStack() {
   return (
     <Stack.Navigator
-      initialRouteName={savedName}
+      initialRouteName={libraryName}
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name={savedName} component={SavedScreen} />
+      <Stack.Screen name={libraryName} component={LibraryScreen} />
     </Stack.Navigator>
   );
 }
@@ -93,7 +93,7 @@ export default function MainContainer() {
                 iconName = focused ? "camera" : "camera-outline";
               } else if (routeName === searchStackName) {
                 iconName = focused ? "search" : "search-outline";
-              } else if (routeName === savedStackName) {
+              } else if (routeName === libraryStackName) {
                 iconName = focused ? "library" : "library-outline";
               }
               return <Ionicons name={iconName} size={size + 5} color={color} />;
@@ -106,8 +106,8 @@ export default function MainContainer() {
                 label = "Camera";
               } else if (routeName === searchStackName) {
                 label = "Search";
-              } else if (routeName === savedStackName) {
-                label = "Saved";
+              } else if (routeName === libraryStackName) {
+                label = "Library";
               }
               return (
                 <Text
@@ -135,7 +135,7 @@ export default function MainContainer() {
       >
         <Tab.Screen name={searchStackName} component={SearchStack} />
         <Tab.Screen name={cameraStackName} component={CameraStack} />
-        <Tab.Screen name={savedStackName} component={SavedStack} />
+        <Tab.Screen name={libraryStackName} component={LibraryStack} />
       </Tab.Navigator>
     </NavigationContainer>
   );
