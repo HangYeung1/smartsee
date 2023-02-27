@@ -6,11 +6,13 @@ import {
   Pressable,
   ScrollView,
   FlatList,
+  Image,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { COMPANIES } from "../../assets/companyinfo";
 
 function FilterButton({ text, onPress = () => {} }) {
   return (
@@ -32,8 +34,62 @@ function FilterButton({ text, onPress = () => {} }) {
   );
 }
 
+function ComapnyPreview({ name, color, tags, src }) {
+  let tagsDisplay = tags.join(", ");
+  if (tagsDisplay.length > 25) {
+    tagsDisplay = tagsDisplay.substring(0, 22) + "...";
+  }
+
+  return (
+    <View
+      style={{
+        height: 200,
+        width: 175,
+        margin: 20,
+      }}
+    >
+      <View
+        style={{
+          shadowColor: "black",
+          shadowOpacity: 0.2,
+          shadowOffset: { width: 0, height: 10 },
+          shadowRadius: 10,
+        }}
+      >
+        <Image
+          source={src}
+          style={{
+            resizeMode: "cover",
+            width: "100%",
+            height: 150,
+            borderRadius: 10,
+          }}
+        />
+      </View>
+
+      <Text
+        style={{ fontSize: 16, color: "black", marginLeft: 2, marginTop: 15 }}
+      >
+        {name}
+      </Text>
+      <View
+        style={{ flexDirection: "row", marginLeft: 5, alignItems: "center" }}
+      >
+        <Ionicons
+          name="analytics-outline"
+          size={18}
+          color={color}
+          style={{ marginRight: 3 }}
+        />
+        <Text style={{ fontSize: 12, color: "black" }}>{tagsDisplay}</Text>
+      </View>
+    </View>
+  );
+}
+
 export default function SearchScreen({ navigation }) {
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState(Array(10).fill(false));
   const insets = useSafeAreaInsets();
 
   return (
@@ -94,7 +150,6 @@ export default function SearchScreen({ navigation }) {
         </View>
         <ScrollView
           horizontal="true"
-          bounces="false"
           showsHorizontalScrollIndicator="false"
           contentContainerStyle={{
             flexDirection: "row",
@@ -115,21 +170,35 @@ export default function SearchScreen({ navigation }) {
         </ScrollView>
       </View>
       <View>
-        <Text>Recents</Text>
-        <FlatList></FlatList>
+        <Text
+          style={{
+            paddingLeft: 30,
+            marginTop: 30,
+            paddingBottom: 10,
+            fontSize: 20,
+            fontWeight: "bold",
+          }}
+        >
+          Recents
+        </Text>
+        <FlatList
+          data={COMPANIES}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ height: 980 }}
+          renderItem={({ item }) => (
+            <ComapnyPreview
+              name={item.name}
+              color={item.color}
+              tags={item.tags}
+              src={item.src}
+            />
+          )}
+          keyExtractor={(item) => item.id}
+        />
       </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-  },
-  body: {
-    fontSize: 26,
-    fontWeight: "bold",
-  },
-});
+const styles = StyleSheet.create({});
