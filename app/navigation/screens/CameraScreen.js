@@ -15,14 +15,14 @@ export default function CameraScreen({ navigation }) {
     return <View />;
   }
 
+  // Camera permissions are not granted yet
   if (!permission.granted) {
-    // Camera permissions are not granted yet
     return (
       <View style={{ flex: 1, justifyContent: "center" }}>
         <Text style={{ textAlign: "center" }}>
-          We need your permission to show the camera
+          To use this app, you need to grant camera permissions.
         </Text>
-        <Button onPress={requestPermission} title="grant permission" />
+        <Button onPress={requestPermission} title="Grant Permission" />
       </View>
     );
   }
