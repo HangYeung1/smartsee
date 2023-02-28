@@ -38,7 +38,11 @@ function SearchStack() {
       initialRouteName={searchName}
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name={searchName} component={SearchScreen} />
+      <Stack.Screen
+        name={searchName}
+        component={SearchScreen}
+        options={{ cardStyle: { backgroundColor: "white" } }}
+      />
       <Stack.Screen
         name={breakdownName}
         component={BreakdownScreen}

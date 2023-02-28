@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { COMPANIES } from "../../assets/companyinfo";
@@ -19,14 +19,14 @@ function FilterButton({ text, onPress = () => {} }) {
     <Pressable
       onPress={onPress}
       style={{
-        backgroundColor: "black",
-        height: 35,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 20,
         paddingLeft: 20,
         paddingRight: 20,
         marginRight: 5,
+        height: 35,
+        backgroundColor: "black",
+        borderRadius: 20,
       }}
     >
       <Text style={{ color: "white", fontSize: 14 }}>{text}</Text>
@@ -89,74 +89,78 @@ function ComapnyPreview({ name, color, tags, src }) {
 
 export default function SearchScreen({ navigation }) {
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState(Array(10).fill(false));
+  const [filter, setFilter] = useState();
   const insets = useSafeAreaInsets();
 
+  useEffect(() => {
+    if (search.length > 0) {
+      setFilter(
+        COMPANIES.filter((company) =>
+          company.name.toLowerCase().includes(search.toLowerCase())
+        )
+      );
+    } else {
+      setFilter();
+    }
+  });
+
+  useEffect(() => {});
+
   return (
-    <View
-      style={{
-        flex: 1,
-        paddingTop: insets.top,
-        paddingLeft: insets.left,
-        paddingRight: insets.right,
-        backgroundColor: "white",
-      }}
-    >
+    <>
       <StatusBar style="auto" />
-      <View>
-        <View
+      <View
+        className="titleBar"
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          paddingHorizontal: 30,
+          paddingTop: 30 + insets.top,
+          paddingBottom: 10,
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ fontSize: 28, fontWeight: "bold" }}>Search</Text>
+        <Pressable>
+          <Ionicons name="settings-outline" size={30} color="black" />
+        </Pressable>
+      </View>
+      <View
+        className="searchBar"
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          backgroundColor: "#F2F2F2",
+          marginLeft: 25,
+          marginRight: 25,
+          borderRadius: 15,
+        }}
+      >
+        <Ionicons
+          name="search"
+          size={24}
+          color="black"
+          style={{ paddingLeft: 10 }}
+        />
+        <TextInput
+          value={search}
+          onChangeText={(newSearch) => setSearch(newSearch)}
+          placeholder="What company do you want to look up?"
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            paddingLeft: 30,
-            paddingRight: 30,
-            paddingTop: 30,
-            paddingBottom: 10,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 28, fontWeight: "bold" }}>Search</Text>
-          <Pressable>
-            <Ionicons name="settings-outline" size={30} color="black" />
-          </Pressable>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
+            width: "80%",
+            height: 50,
             backgroundColor: "#F2F2F2",
-            marginLeft: 25,
-            marginRight: 25,
-            borderRadius: 15,
+            padding: 10,
           }}
-        >
-          <Ionicons
-            name="search"
-            size={24}
-            color="black"
-            style={{ paddingLeft: 10 }}
-          />
-          <TextInput
-            value={search}
-            onChangeText={(newSearch) => setSearch(newSearch)}
-            placeholder="What company do you want to look up?"
-            style={{
-              width: "80%",
-              height: 50,
-              backgroundColor: "#F2F2F2",
-              padding: 10,
-            }}
-          />
-        </View>
+        />
+      </View>
+      <View style={{ flexGrow: 1 }}>
         <ScrollView
-          horizontal="true"
-          showsHorizontalScrollIndicator="false"
-          contentContainerStyle={{
-            flexDirection: "row",
-            marginLeft: 25,
-            marginTop: 10,
-            width: 940,
-          }}
+          className="filterBtns"
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          style={{ marginTop: 10 }}
+          contentContainerStyle={{ marginLeft: 25 }}
         >
           <FilterButton text="Clothes" />
           <FilterButton text="Electronic" />
@@ -164,40 +168,37 @@ export default function SearchScreen({ navigation }) {
           <FilterButton text="Leisure" />
           <FilterButton text="Medical" />
           <FilterButton text="Necessities" />
-          <FilterButton text="Other" />
           <FilterButton text="Sports" />
           <FilterButton text="Transportation" />
+          <FilterButton text="Other" />
         </ScrollView>
       </View>
-      <View>
-        <Text
-          style={{
-            paddingLeft: 30,
-            marginTop: 30,
-            paddingBottom: 10,
-            fontSize: 20,
-            fontWeight: "bold",
-          }}
-        >
-          Recents
-        </Text>
-        <FlatList
-          data={COMPANIES}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ height: 980 }}
-          renderItem={({ item }) => (
-            <ComapnyPreview
-              name={item.name}
-              color={item.color}
-              tags={item.tags}
-              src={item.src}
-            />
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
-    </View>
+      <Text
+        style={{
+          paddingLeft: 30,
+          marginTop: 30,
+          marginBottom: 10,
+          fontSize: 20,
+          fontWeight: "bold",
+        }}
+      >
+        Recents
+      </Text>
+      <FlatList
+        data={COMPANIES}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <ComapnyPreview
+            name={item.name}
+            color={item.color}
+            tags={item.tags}
+            src={item.src}
+          />
+        )}
+        keyExtractor={(item) => item.id}
+      />
+    </>
   );
 }
 
