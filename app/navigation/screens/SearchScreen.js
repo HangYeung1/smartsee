@@ -16,19 +16,7 @@ import { COMPANIES } from "../../assets/companyinfo";
 
 function FilterButton({ text, onPress = () => {} }) {
   return (
-    <Pressable
-      onPress={onPress}
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-        paddingLeft: 20,
-        paddingRight: 20,
-        marginRight: 5,
-        height: 35,
-        backgroundColor: "black",
-        borderRadius: 20,
-      }}
-    >
+    <Pressable onPress={onPress} style={styles.filterBtn}>
       <Text style={{ color: "white", fontSize: 14 }}>{text}</Text>
     </Pressable>
   );
@@ -89,22 +77,30 @@ function ComapnyPreview({ name, color, tags, src }) {
 
 export default function SearchScreen({ navigation }) {
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState();
+  const [filter, setFilter] = useState({
+    Clothes: false,
+    Electronic: false,
+    Food: false,
+    Leisure: false,
+    Medical: false,
+    Sports: false,
+    Transportation: false,
+    Other: false,
+  });
   const insets = useSafeAreaInsets();
 
-  useEffect(() => {
-    if (search.length > 0) {
-      setFilter(
-        COMPANIES.filter((company) =>
-          company.name.toLowerCase().includes(search.toLowerCase())
-        )
-      );
-    } else {
-      setFilter();
-    }
-  });
+  // When filter changes, change what companies are displayed
+  const handleFilterChange = (filterName) => {
+    setFilter({ ...filter, [filterName]: !filter[filterName] });
+  };
 
-  useEffect(() => {});
+  // When search changes, change what companies are displayed + title
+  const handleSearchChange = (newSearch) => {
+    setSearch(newSearch);
+  };
+
+  // Get filtered companies
+  let filteredCompanies = COMPANIES;
 
   return (
     <>
@@ -144,7 +140,7 @@ export default function SearchScreen({ navigation }) {
         />
         <TextInput
           value={search}
-          onChangeText={(newSearch) => setSearch(newSearch)}
+          onChangeText={handleSearchChange}
           placeholder="What company do you want to look up?"
           style={{
             width: "80%",
@@ -160,17 +156,125 @@ export default function SearchScreen({ navigation }) {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           style={{ marginTop: 10 }}
-          contentContainerStyle={{ marginLeft: 25 }}
+          contentContainerStyle={{ marginLeft: 25, paddingRight: 25 }}
         >
-          <FilterButton text="Clothes" />
-          <FilterButton text="Electronic" />
-          <FilterButton text="Food" />
-          <FilterButton text="Leisure" />
-          <FilterButton text="Medical" />
-          <FilterButton text="Necessities" />
-          <FilterButton text="Sports" />
-          <FilterButton text="Transportation" />
-          <FilterButton text="Other" />
+          <Pressable
+            onPress={() => setFilter({ ...filter, Clothes: !filter.Clothes })}
+            style={[
+              styles.filterBtn,
+              {
+                backgroundColor: filter.Clothes ? "mediumseagreen" : "black",
+              },
+            ]}
+          >
+            <Text style={{ color: "white", fontSize: 14 }}>Clothes</Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() =>
+              setFilter({ ...filter, Electronic: !filter.Electronic })
+            }
+            style={[
+              styles.filterBtn,
+              {
+                backgroundColor: filter.Electronic ? "mediumseagreen" : "black",
+              },
+            ]}
+          >
+            <Text style={{ color: "white", fontSize: 14 }}>Electronic</Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => setFilter({ ...filter, Food: !filter.Food })}
+            style={[
+              styles.filterBtn,
+              {
+                backgroundColor: filter.Food ? "mediumseagreen" : "black",
+              },
+            ]}
+          >
+            <Text style={{ color: "white", fontSize: 14 }}>Food</Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => setFilter({ ...filter, Leisure: !filter.Leisure })}
+            style={[
+              styles.filterBtn,
+              {
+                backgroundColor: filter.Leisure ? "mediumseagreen" : "black",
+              },
+            ]}
+          >
+            <Text style={{ color: "white", fontSize: 14 }}>Leisure</Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => setFilter({ ...filter, Medical: !filter.Medical })}
+            style={[
+              styles.filterBtn,
+              {
+                backgroundColor: filter.Medical ? "mediumseagreen" : "black",
+              },
+            ]}
+          >
+            <Text style={{ color: "white", fontSize: 14 }}>Medical</Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() =>
+              setFilter({ ...filter, Necessities: !filter.Necessities })
+            }
+            style={[
+              styles.filterBtn,
+              {
+                backgroundColor: filter.Necessities
+                  ? "mediumseagreen"
+                  : "black",
+              },
+            ]}
+          >
+            <Text style={{ color: "white", fontSize: 14 }}>Necessities</Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => setFilter({ ...filter, Sports: !filter.Sports })}
+            style={[
+              styles.filterBtn,
+              {
+                backgroundColor: filter.Sports ? "mediumseagreen" : "black",
+              },
+            ]}
+          >
+            <Text style={{ color: "white", fontSize: 14 }}>Sports</Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() =>
+              setFilter({ ...filter, Transportation: !filter.Transportation })
+            }
+            style={[
+              styles.filterBtn,
+              {
+                backgroundColor: filter.Transportation
+                  ? "mediumseagreen"
+                  : "black",
+              },
+            ]}
+          >
+            <Text style={{ color: "white", fontSize: 14 }}>Transportation</Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => setFilter({ ...filter, Other: !filter.Other })}
+            style={[
+              styles.filterBtn,
+              {
+                backgroundColor: filter.Other ? "mediumseagreen" : "black",
+              },
+            ]}
+          >
+            <Text style={{ color: "white", fontSize: 14 }}>Other</Text>
+          </Pressable>
         </ScrollView>
       </View>
       <Text
@@ -182,10 +286,10 @@ export default function SearchScreen({ navigation }) {
           fontWeight: "bold",
         }}
       >
-        Recents
+        {search === "" ? "All Companies" : "Searching: " + search}
       </Text>
       <FlatList
-        data={COMPANIES}
+        data={filteredCompanies}
         numColumns={2}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
@@ -202,4 +306,15 @@ export default function SearchScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  filterBtn: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginRight: 5,
+    height: 35,
+    backgroundColor: "black",
+    borderRadius: 20,
+  },
+});
