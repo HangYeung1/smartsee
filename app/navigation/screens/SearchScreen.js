@@ -71,7 +71,7 @@ function ComapnyPreview({ name, color, tags, src }) {
 export default function SearchScreen({ navigation }) {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState({
-    Clothes: false,
+    Clothing: false,
     Electronic: false,
     Food: false,
     Leisure: false,
@@ -174,15 +174,15 @@ export default function SearchScreen({ navigation }) {
           contentContainerStyle={{ marginLeft: 25, paddingRight: 25 }}
         >
           <Pressable
-            onPress={() => setFilter({ ...filter, Clothes: !filter.Clothes })}
+            onPress={() => setFilter({ ...filter, Clothing: !filter.Clothing })}
             style={[
               styles.filterBtn,
               {
-                backgroundColor: filter.Clothes ? "mediumseagreen" : "black",
+                backgroundColor: filter.Clothing ? "mediumseagreen" : "black",
               },
             ]}
           >
-            <Text style={{ color: "white", fontSize: 14 }}>Clothes</Text>
+            <Text style={{ color: "white", fontSize: 14 }}>Clothing</Text>
           </Pressable>
 
           <Pressable
