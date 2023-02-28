@@ -74,7 +74,11 @@ function LibraryStack() {
       initialRouteName={libraryName}
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name={libraryName} component={LibraryScreen} />
+      <Stack.Screen
+        name={libraryName}
+        component={LibraryScreen}
+        options={{ cardStyle: { backgroundColor: "white" } }}
+      />
     </Stack.Navigator>
   );
 }
