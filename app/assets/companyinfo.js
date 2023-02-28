@@ -5,6 +5,7 @@ export const COMPANIES = [
     color: "orange",
     tags: ["Carbon Neutral", "Good Workplace"],
     src: require("./images/0.png"),
+    cat: "Electronic",
   },
   {
     id: 1,
@@ -12,6 +13,7 @@ export const COMPANIES = [
     color: "green",
     tags: ["Good Privacy", "LGBTQ Safe"],
     src: require("./images/1.png"),
+    cat: "Electronic",
   },
   {
     id: 2,
@@ -19,6 +21,7 @@ export const COMPANIES = [
     color: "red",
     tags: ["Overworks", "Overseas Manufacturing"],
     src: require("./images/2.png"),
+    cat: "Electronic",
   },
   {
     id: 3,
@@ -26,6 +29,7 @@ export const COMPANIES = [
     color: "green",
     tags: ["Good Working Conditions", "Good Workplace"],
     src: require("./images/3.png"),
+    cat: "Electronic",
   },
   {
     id: 4,
@@ -33,6 +37,7 @@ export const COMPANIES = [
     color: "red",
     tags: ["Toxic Workplace", "Overworks"],
     src: require("./images/4.png"),
+    cat: "Electronic",
   },
   {
     id: 5,
@@ -40,5 +45,6 @@ export const COMPANIES = [
     color: "orange",
     tags: ["Transparency", "Good Workplace"],
     src: require("./images/5.png"),
+    cat: "Electronic",
   },
 ];

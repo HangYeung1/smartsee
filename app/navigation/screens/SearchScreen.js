@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { COMPANIES } from "../../assets/companyinfo";
+import Fuse from "fuse.js";
 
 function FilterButton({ text, onPress = () => {} }) {
   return (
@@ -89,18 +90,40 @@ export default function SearchScreen({ navigation }) {
   });
   const insets = useSafeAreaInsets();
 
-  // When filter changes, change what companies are displayed
-  const handleFilterChange = (filterName) => {
-    setFilter({ ...filter, [filterName]: !filter[filterName] });
-  };
-
   // When search changes, change what companies are displayed + title
   const handleSearchChange = (newSearch) => {
     setSearch(newSearch);
   };
 
-  // Get filtered companies
-  let filteredCompanies = COMPANIES;
+  // // Get filtered companies
+  let activeFilters = [];
+  for (const key in filter) {
+    if (filter[key]) {
+      activeFilters.push(key);
+    }
+  }
+
+  let filteredCompanies = [];
+  if (activeFilters.length > 0) {
+    for (let i = 0; i < COMPANIES.length; i++) {
+      let company = COMPANIES[i];
+      if (activeFilters.includes(company.cat)) {
+        filteredCompanies.push(company);
+      }
+    }
+  } else {
+    filteredCompanies = COMPANIES;
+  }
+
+  let searchedComapnies = filteredCompanies;
+  if (search !== "") {
+    const options = {
+      keys: ["name"],
+    };
+    const fuse = new Fuse(searchedComapnies, options);
+    searchedComapnies = fuse.search(search);
+    searchedComapnies = searchedComapnies.map((result) => result.item);
+  }
 
   return (
     <>
@@ -150,7 +173,7 @@ export default function SearchScreen({ navigation }) {
           }}
         />
       </View>
-      <View style={{ flexGrow: 1 }}>
+      <View>
         <ScrollView
           className="filterBtns"
           horizontal={true}
@@ -289,7 +312,7 @@ export default function SearchScreen({ navigation }) {
         {search === "" ? "All Companies" : "Searching: " + search}
       </Text>
       <FlatList
-        data={filteredCompanies}
+        data={searchedComapnies}
         numColumns={2}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
