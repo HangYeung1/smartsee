@@ -15,14 +15,6 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { COMPANIES } from "../../assets/companyinfo";
 import Fuse from "fuse.js";
 
-function FilterButton({ text, onPress = () => {} }) {
-  return (
-    <Pressable onPress={onPress} style={styles.filterBtn}>
-      <Text style={{ color: "white", fontSize: 14 }}>{text}</Text>
-    </Pressable>
-  );
-}
-
 function ComapnyPreview({ name, color, tags, src }) {
   let tagsDisplay = tags.join(", ");
   if (tagsDisplay.length > 25) {
