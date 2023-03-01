@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Just Updated",
+    "id": 0,
+    "icon": "cloud-upload-outline",
+    "list": [9, 5, 8, 4]
+  },
+  {
+    "name": "Recently Viewed",
+    "id": 1,
+    "icon": "time-outline",
+    "list": [8, 4, 7, 1]
+  },
+  {
+    "name": "Bookmarks",
+    "id": 2,
+    "icon": "bookmark-outline",
+    "list": [11, 3, 4, 5]
+  }
+]
