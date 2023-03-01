@@ -173,16 +173,18 @@ export default function SearchScreen({ navigation }) {
         </Text>
 
         {/* Search Results Display */}
-        <FlatList
-          columnWrapperStyle={{ justifyContent: "space-evenly" }}
-          data={searchResult}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <ComapnyPreview id={item.id} navigation={navigation} />
-          )}
-          keyExtractor={(item) => item.id}
-        />
+        <View className="flex-1">
+          <FlatList
+            contentContainerStyle={{ alignItems: "center" }}
+            data={searchResult}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <ComapnyPreview id={item.id} navigation={navigation} />
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
       </View>
     </View>
   );

@@ -10,7 +10,6 @@ import SearchScreen from "./screens/SearchScreen";
 import BreakdownScreen from "./screens/BreakdownScreen";
 
 import CameraScreen from "./screens/CameraScreen";
-import SettingsScreen from "./screens/SettingsScreen";
 
 import LibraryScreen from "./screens/LibraryScreen";
 
@@ -25,7 +24,6 @@ const breakdownName = "Breakdown";
 
 // Camera screen stack names
 const cameraName = "Camera";
-const settingsName = "Settings";
 
 // Library screen stack names
 const libraryName = "Library";
@@ -59,11 +57,6 @@ function CameraStack() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name={cameraName} component={CameraScreen} />
-      <Stack.Screen
-        name={settingsName}
-        component={SettingsScreen}
-        options={{ presentation: "modal" }}
-      />
     </Stack.Navigator>
   );
 }

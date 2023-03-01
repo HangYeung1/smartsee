@@ -48,7 +48,7 @@ export default function CameraScreen({ navigation }) {
         <Camera style={{ flex: 1 }} type={type}>
           <View style={styles.overlayContainer}>
             <View style={styles.topButtonsContainer}>
-              <Pressable onPress={() => navigation.navigate("Settings")}>
+              <Pressable>
                 <View style={styles.smallButton}>
                   <Ionicons name="settings-outline" size={30} color="white" />
                 </View>
