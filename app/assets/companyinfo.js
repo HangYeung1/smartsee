@@ -5,7 +5,7 @@ export const COMPANIES = [
     color: "orange",
     tags: ["Carbon Neutral", "Good Workplace"],
     src: require("./images/0.png"),
-    cat: "Electronic",
+    category: "Electronic",
   },
   {
     id: 1,
@@ -13,7 +13,7 @@ export const COMPANIES = [
     color: "green",
     tags: ["Good Privacy", "LGBTQ Safe"],
     src: require("./images/1.png"),
-    cat: "Electronic",
+    category: "Electronic",
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ export const COMPANIES = [
     color: "red",
     tags: ["Overworks", "Overseas Manufacturing"],
     src: require("./images/2.png"),
-    cat: "Electronic",
+    category: "Electronic",
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ export const COMPANIES = [
     color: "green",
     tags: ["Good Working Conditions", "Good Workplace"],
     src: require("./images/3.png"),
-    cat: "Electronic",
+    category: "Electronic",
   },
   {
     id: 4,
@@ -37,7 +37,7 @@ export const COMPANIES = [
     color: "red",
     tags: ["Toxic Workplace", "Overworks"],
     src: require("./images/4.png"),
-    cat: "Electronic",
+    category: "Electronic",
   },
   {
     id: 5,
@@ -45,7 +45,7 @@ export const COMPANIES = [
     color: "orange",
     tags: ["Transparency", "Good Workplace"],
     src: require("./images/5.png"),
-    cat: "Electronic",
+    category: "Electronic",
   },
   {
     id: 6,
@@ -53,7 +53,7 @@ export const COMPANIES = [
     color: "green",
     tags: ["Good Workplace", "Good Privacy"],
     src: require("./images/6.png"),
-    cat: "Clothing",
+    category: "Clothing",
   },
   {
     id: 7,
@@ -61,7 +61,7 @@ export const COMPANIES = [
     color: "red",
     tags: ["Overseas Manufacturing", "Overworks"],
     src: require("./images/7.png"),
-    cat: "Clothing",
+    category: "Clothing",
   },
   {
     id: 8,
@@ -69,7 +69,7 @@ export const COMPANIES = [
     color: "orange",
     tags: ["Overseas Manufacturing", "Overworks"],
     src: require("./images/8.png"),
-    cat: "Food",
+    category: "Food",
   },
   {
     id: 9,
@@ -77,7 +77,7 @@ export const COMPANIES = [
     color: "green",
     tags: ["Good Workplace", "Good Privacy"],
     src: require("./images/9.png"),
-    cat: "Food",
+    category: "Food",
   },
   {
     id: 10,
@@ -85,7 +85,7 @@ export const COMPANIES = [
     color: "green",
     tags: ["Good Workplace", "Good Privacy"],
     src: require("./images/10.png"),
-    cat: "Leisure",
+    category: "Leisure",
   },
   {
     id: 11,
@@ -93,6 +93,6 @@ export const COMPANIES = [
     color: "red",
     tags: ["Overseas Manufacturing", "Overworks"],
     src: require("./images/11.png"),
-    cat: "Leisure",
+    category: "Leisure",
   },
 ];

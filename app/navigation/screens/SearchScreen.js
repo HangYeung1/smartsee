@@ -1,21 +1,21 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Pressable,
-  ScrollView,
-  FlatList,
-  Image,
-} from "react-native";
+import { useState } from "react";
+import { Text, View, Image } from "react-native";
+import { FlatList, ScrollView, TextInput, Pressable } from "react-native";
+
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { COMPANIES } from "../../assets/companyinfo";
 import Fuse from "fuse.js";
 
-function ComapnyPreview({ id, name, color, tags, src, navigation }) {
+import { COMPANIES } from "../../assets/companyinfo";
+
+function ComapnyPreview({ id, navigation }) {
+  // Get company info
+  const { name, src, tags, color } = COMPANIES.find(
+    (company) => company.id === id
+  );
+
+  // Format tags
   let tagsDisplay = tags.join(", ");
   if (tagsDisplay.length > 25) {
     tagsDisplay = tagsDisplay.substring(0, 22) + "...";
@@ -23,13 +23,10 @@ function ComapnyPreview({ id, name, color, tags, src, navigation }) {
 
   return (
     <Pressable
-      style={{
-        height: 200,
-        width: 175,
-        margin: 20,
-      }}
+      className="h-48 w-44 m-5"
       onPress={() => navigation.navigate("Breakdown", { id: id })}
     >
+      {/* Company Image */}
       <View
         style={{
           shadowColor: "black",
@@ -38,301 +35,155 @@ function ComapnyPreview({ id, name, color, tags, src, navigation }) {
           shadowRadius: 10,
         }}
       >
-        <Image
-          source={src}
-          style={{
-            resizeMode: "cover",
-            width: "100%",
-            height: 150,
-            borderRadius: 10,
-          }}
-        />
+        <Image className="h-36 w-44 rounded-2xl" source={src} />
       </View>
 
-      <Text
-        style={{ fontSize: 16, color: "black", marginLeft: 2, marginTop: 15 }}
-      >
-        {name}
-      </Text>
-      <View
-        style={{ flexDirection: "row", marginLeft: 5, alignItems: "center" }}
-      >
-        <Ionicons
-          name="analytics-outline"
-          size={18}
-          color={color}
-          style={{ marginRight: 3 }}
-        />
-        <Text style={{ fontSize: 12, color: "black" }}>{tagsDisplay}</Text>
+      {/* Company Name and Tags */}
+      <Text className="text-base ml-0.5 mt-3.5">{name}</Text>
+      <View className="flex-row items-center ml-1">
+        <Ionicons name="analytics-outline" size={18} color={color} />
+        <Text className="text-xs ml-0.5">{tagsDisplay}</Text>
       </View>
     </Pressable>
   );
 }
 
 export default function SearchScreen({ navigation }) {
+  // Search state
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState({
-    Clothing: false,
-    Electronic: false,
-    Food: false,
-    Leisure: false,
-    Medical: false,
-    Sports: false,
-    Transportation: false,
-    Other: false,
-  });
+  const [activeFilters, setActiveFilters] = useState([]);
+
+  // Get safe area insets
   const insets = useSafeAreaInsets();
 
-  // When search changes, change what companies are displayed + title
+  // Categories
+  const categories = [
+    { name: "Clothing", id: 0 },
+    { name: "Electronic", id: 1 },
+    { name: "Food", id: 2 },
+    { name: "Leisure", id: 3 },
+    { name: "Medical", id: 4 },
+    { name: "Necessities", id: 5 },
+    { name: "Sports", id: 6 },
+    { name: "Transportation", id: 7 },
+    { name: "Other", id: 8 },
+  ];
+
+  // Handle filter changes
+  const handleFilterChange = (change) => {
+    if (!activeFilters.includes(change)) {
+      setActiveFilters([...activeFilters, change]);
+    } else {
+      setActiveFilters(activeFilters.filter((category) => category !== change));
+    }
+  };
+
+  // Handle search changes
   const handleSearchChange = (newSearch) => {
     setSearch(newSearch);
   };
 
-  // // Get filtered companies
-  let activeFilters = [];
-  for (const key in filter) {
-    if (filter[key]) {
-      activeFilters.push(key);
-    }
-  }
-
-  let filteredCompanies = [];
+  // When filter changes, change what companies are displayed
+  let searchResult = [];
   if (activeFilters.length > 0) {
-    for (let i = 0; i < COMPANIES.length; i++) {
-      let company = COMPANIES[i];
-      if (activeFilters.includes(company.cat)) {
-        filteredCompanies.push(company);
-      }
-    }
+    searchResult = COMPANIES.filter((company) =>
+      activeFilters.includes(company.category)
+    );
   } else {
-    filteredCompanies = COMPANIES;
+    searchResult = COMPANIES;
   }
 
-  let searchedComapnies = filteredCompanies;
+  // When search changes, change what companies are displayed
   if (search !== "") {
     const options = {
       keys: ["name"],
     };
-    const fuse = new Fuse(searchedComapnies, options);
-    searchedComapnies = fuse.search(search);
-    searchedComapnies = searchedComapnies.map((result) => result.item);
+    const fuse = new Fuse(searchResult, options);
+    searchResult = fuse.search(search);
+    searchResult = searchResult.map((result) => result.item);
   }
 
   return (
-    <>
+    <View
+      style={{
+        paddingTop: insets.top,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
+        flex: 1,
+      }}
+    >
       <StatusBar style="auto" />
-      <View
-        className="titleBar"
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingHorizontal: 30,
-          paddingTop: 30 + insets.top,
-          paddingBottom: 10,
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ fontSize: 28, fontWeight: "bold" }}>Search</Text>
-        <Pressable>
-          <Ionicons name="settings-outline" size={30} color="black" />
-        </Pressable>
-      </View>
-      <View
-        className="searchBar"
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: "#F2F2F2",
-          marginLeft: 25,
-          marginRight: 25,
-          borderRadius: 15,
-        }}
-      >
-        <Ionicons
-          name="search"
-          size={24}
-          color="black"
-          style={{ paddingLeft: 10 }}
-        />
-        <TextInput
-          value={search}
-          onChangeText={handleSearchChange}
-          placeholder="What company do you want to look up?"
-          style={{
-            width: "80%",
-            height: 50,
-            backgroundColor: "#F2F2F2",
-            padding: 10,
-          }}
-        />
-      </View>
+
+      {/* Search Header */}
       <View>
+        {/* Page Title */}
+        <View className="flex-row items-center justify-between px-8 pt-8 pb-2.5">
+          <Text className="text-3xl font-bold">Search</Text>
+          <Pressable>
+            <Ionicons name="settings-outline" size={30} color="black" />
+          </Pressable>
+        </View>
+
+        {/* Search Bar */}
+        <View className="flex-row items-center bg-gray-100 mx-6 px-2.5 rounded-2xl">
+          <Ionicons name="search" size={24} color="black" />
+          <TextInput
+            className="w-4/5 h-12 ml-2.5"
+            value={search}
+            onChangeText={handleSearchChange}
+            placeholder="What company do you want to look up?"
+          />
+        </View>
+
+        {/* Search Filters */}
         <ScrollView
-          className="filterBtns"
+          className="mt-2.5"
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          style={{ marginTop: 10 }}
-          contentContainerStyle={{ marginLeft: 25, paddingRight: 25 }}
+          contentContainerStyle={{ marginLeft: 25, paddingRight: 50 }}
         >
-          <Pressable
-            onPress={() => setFilter({ ...filter, Clothing: !filter.Clothing })}
-            style={[
-              styles.filterBtn,
-              {
-                backgroundColor: filter.Clothing ? "mediumseagreen" : "black",
-              },
-            ]}
-          >
-            <Text style={{ color: "white", fontSize: 14 }}>Clothing</Text>
-          </Pressable>
-
-          <Pressable
-            onPress={() =>
-              setFilter({ ...filter, Electronic: !filter.Electronic })
-            }
-            style={[
-              styles.filterBtn,
-              {
-                backgroundColor: filter.Electronic ? "mediumseagreen" : "black",
-              },
-            ]}
-          >
-            <Text style={{ color: "white", fontSize: 14 }}>Electronic</Text>
-          </Pressable>
-
-          <Pressable
-            onPress={() => setFilter({ ...filter, Food: !filter.Food })}
-            style={[
-              styles.filterBtn,
-              {
-                backgroundColor: filter.Food ? "mediumseagreen" : "black",
-              },
-            ]}
-          >
-            <Text style={{ color: "white", fontSize: 14 }}>Food</Text>
-          </Pressable>
-
-          <Pressable
-            onPress={() => setFilter({ ...filter, Leisure: !filter.Leisure })}
-            style={[
-              styles.filterBtn,
-              {
-                backgroundColor: filter.Leisure ? "mediumseagreen" : "black",
-              },
-            ]}
-          >
-            <Text style={{ color: "white", fontSize: 14 }}>Leisure</Text>
-          </Pressable>
-
-          <Pressable
-            onPress={() => setFilter({ ...filter, Medical: !filter.Medical })}
-            style={[
-              styles.filterBtn,
-              {
-                backgroundColor: filter.Medical ? "mediumseagreen" : "black",
-              },
-            ]}
-          >
-            <Text style={{ color: "white", fontSize: 14 }}>Medical</Text>
-          </Pressable>
-
-          <Pressable
-            onPress={() =>
-              setFilter({ ...filter, Necessities: !filter.Necessities })
-            }
-            style={[
-              styles.filterBtn,
-              {
-                backgroundColor: filter.Necessities
-                  ? "mediumseagreen"
-                  : "black",
-              },
-            ]}
-          >
-            <Text style={{ color: "white", fontSize: 14 }}>Necessities</Text>
-          </Pressable>
-
-          <Pressable
-            onPress={() => setFilter({ ...filter, Sports: !filter.Sports })}
-            style={[
-              styles.filterBtn,
-              {
-                backgroundColor: filter.Sports ? "mediumseagreen" : "black",
-              },
-            ]}
-          >
-            <Text style={{ color: "white", fontSize: 14 }}>Sports</Text>
-          </Pressable>
-
-          <Pressable
-            onPress={() =>
-              setFilter({ ...filter, Transportation: !filter.Transportation })
-            }
-            style={[
-              styles.filterBtn,
-              {
-                backgroundColor: filter.Transportation
-                  ? "mediumseagreen"
-                  : "black",
-              },
-            ]}
-          >
-            <Text style={{ color: "white", fontSize: 14 }}>Transportation</Text>
-          </Pressable>
-
-          <Pressable
-            onPress={() => setFilter({ ...filter, Other: !filter.Other })}
-            style={[
-              styles.filterBtn,
-              {
-                backgroundColor: filter.Other ? "mediumseagreen" : "black",
-              },
-            ]}
-          >
-            <Text style={{ color: "white", fontSize: 14 }}>Other</Text>
-          </Pressable>
+          {categories.map((category) => (
+            <Pressable
+              className="justify-center items-center mr-1.5 bg-black rounded-full"
+              key={category.id}
+              onPress={() => handleFilterChange(category.name)}
+              style={[
+                {
+                  backgroundColor: activeFilters.includes(category.name)
+                    ? "mediumseagreen"
+                    : "black",
+                },
+              ]}
+            >
+              <Text className="text-white text-sm mx-5 my-2 ">
+                {category.name}
+              </Text>
+            </Pressable>
+          ))}
         </ScrollView>
       </View>
-      <Text
-        style={{
-          paddingLeft: 30,
-          marginTop: 30,
-          marginBottom: 10,
-          fontSize: 20,
-          fontWeight: "bold",
-        }}
-      >
-        {search === "" ? "All Companies" : "Searching: " + search}
-      </Text>
-      <FlatList
-        data={searchedComapnies}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <ComapnyPreview
-            id={item.id}
-            name={item.name}
-            color={item.color}
-            tags={item.tags}
-            src={item.src}
-            navigation={navigation}
-          />
-        )}
-        keyExtractor={(item) => item.id}
-      />
-    </>
+
+      {/* Search Results */}
+      <View className="flex-1">
+        {/* Search Phrase Display */}
+        <Text className="text-xl font-bold pl-7 mt-7 mb-2.5">
+          {search === ""
+            ? "All Companies"
+            : searchResult.length + " Companies Found"}
+        </Text>
+
+        {/* Search Results Display */}
+        <FlatList
+          columnWrapperStyle={{ justifyContent: "space-evenly" }}
+          data={searchResult}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <ComapnyPreview id={item.id} navigation={navigation} />
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  filterBtn: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginRight: 5,
-    height: 35,
-    backgroundColor: "black",
-    borderRadius: 20,
-  },
-});
