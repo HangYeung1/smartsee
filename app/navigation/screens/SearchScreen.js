@@ -15,19 +15,20 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { COMPANIES } from "../../assets/companyinfo";
 import Fuse from "fuse.js";
 
-function ComapnyPreview({ name, color, tags, src }) {
+function ComapnyPreview({ id, name, color, tags, src, navigation }) {
   let tagsDisplay = tags.join(", ");
   if (tagsDisplay.length > 25) {
     tagsDisplay = tagsDisplay.substring(0, 22) + "...";
   }
 
   return (
-    <View
+    <Pressable
       style={{
         height: 200,
         width: 175,
         margin: 20,
       }}
+      onPress={() => navigation.navigate("Breakdown", { id: id })}
     >
       <View
         style={{
@@ -64,7 +65,7 @@ function ComapnyPreview({ name, color, tags, src }) {
         />
         <Text style={{ fontSize: 12, color: "black" }}>{tagsDisplay}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -309,10 +310,12 @@ export default function SearchScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <ComapnyPreview
+            id={item.id}
             name={item.name}
             color={item.color}
             tags={item.tags}
             src={item.src}
+            navigation={navigation}
           />
         )}
         keyExtractor={(item) => item.id}

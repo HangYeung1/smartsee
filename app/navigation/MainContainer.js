@@ -46,7 +46,7 @@ function SearchStack() {
       <Stack.Screen
         name={breakdownName}
         component={BreakdownScreen}
-        options={{ presentation: "modal" }}
+        options={{ cardStyle: { backgroundColor: "white" } }}
       />
     </Stack.Navigator>
   );
@@ -77,6 +77,11 @@ function LibraryStack() {
       <Stack.Screen
         name={libraryName}
         component={LibraryScreen}
+        options={{ cardStyle: { backgroundColor: "white" } }}
+      />
+      <Stack.Screen
+        name={breakdownName}
+        component={BreakdownScreen}
         options={{ cardStyle: { backgroundColor: "white" } }}
       />
     </Stack.Navigator>
