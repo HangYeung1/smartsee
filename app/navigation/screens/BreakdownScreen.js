@@ -1,126 +1,83 @@
 import { StyleSheet, Text, View, Pressable, Image } from "react-native";
+
 import { StatusBar } from "expo-status-bar";
-import { COMPANIES } from "../../assets/companyinfo";
+import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { LinearGradient } from "expo-linear-gradient";
+
+import { COMPANIES } from "../../assets/companyinfo";
 
 export default function BreakdownScreen({ route, navigation }) {
-  const { id } = route.params;
   const insets = useSafeAreaInsets();
 
+  const { id } = route.params;
   const company = COMPANIES.find((company) => company.id === id);
 
-  let tagsDisplay = company.tags.join(" • ");
-
   return (
-    <>
+    <View
+      className="flex-1"
+      style={{
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
+      }}
+    >
       <StatusBar style="light" />
-      <Image
-        source={company.src}
-        blurRadius={5}
-        style={{
-          resizeMode: "cover",
-          width: "100%",
-          height: 300,
-        }}
-      />
+
+      {/* Company Image */}
+      <Image className="w-full h-2/5" source={company.src} blurRadius={5} />
+
+      {/* Gradient Overlay */}
       <LinearGradient
+        className="absolute w-full h-36"
         colors={["rgba(0,0,0,0.8)", "transparent"]}
-        style={{ position: "absolute", width: "100%", height: 125 }}
       />
+
+      {/* Back Button */}
       <Pressable
-        onPress={() => {
-          navigation.goBack();
-        }}
-        style={{
-          position: "absolute",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: insets.top + 30,
-          marginLeft: 15,
-          height: 40,
-          width: 40,
-          borderRadius: 50,
-        }}
+        className="absolute left-5"
+        style={{ top: insets.top + 30 }}
+        onPress={() => navigation.goBack()}
       >
         <Ionicons name="chevron-back-outline" size={35} color="white" />
       </Pressable>
-      <View
-        style={{
-          marginTop: -20,
-          paddingHorizontal: 30,
-          paddingTop: 30,
-          flex: 1,
-          borderRadius: 15,
-          backgroundColor: "white",
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            backgroundColor: "white",
-            marginBottom: 10,
-          }}
-        >
+
+      {/* Company Info */}
+      <View className="flex-1 -mt-6 px-7 pt-7 rounded-3xl bg-white" style={{}}>
+        {/* Header */}
+        <View className="flex-row justify-between items-center mb-2.5">
+          {/* Company Name and Category */}
           <View>
-            <Text style={{ fontSize: 14, fontWeight: "bold", color: "grey" }}>
-              {company.cat}
+            <Text className="text-sm font-bold text-gray-500">
+              {company.category}
             </Text>
-            <Text
-              style={{
-                fontSize: 28,
-                fontWeight: "bold",
-                paddingTop: 5,
-              }}
-            >
-              {company.name}
-            </Text>
+            <Text className="text-3xl font-bold">{company.name}</Text>
           </View>
-          <Ionicons name="bookmark-outline" size={30} color="black" />
+
+          {/* Bookmark Button */}
+          <Pressable>
+            <Ionicons name="bookmark-outline" size={30} color="black" />
+          </Pressable>
         </View>
-        <Text
-          style={{
-            fontSize: 14,
-            color: "grey",
-          }}
-        >
-          {tagsDisplay}
+
+        {/* Tags */}
+        <Text className="text-sm text-gray-500">
+          {company.tags.join(" • ")}
         </Text>
-        <View style={{ marginTop: 15, flexDirection: "row" }}>
-          <View
-            style={{
-              height: 40,
-              width: 40,
-              backgroundColor: "#F2F2F2",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 50,
-            }}
-          >
+
+        {/* Detail Breakdown */}
+        <View className="flex-row my-4">
+          {/* Icon */}
+          <View className="justify-center items-center h-10 w-10 bg-gray-100 rounded-full">
             <Ionicons name="analytics-outline" size={30} color="black" />
           </View>
-          <View style={{ marginLeft: 10 }}>
-            <Text style={{ fontWeight: "bold", fontSize: "20" }}>Title</Text>
-            <Text style={{ fontColor: "#F2F2F2" }}>Subtitle</Text>
+
+          {/* Text */}
+          <View className="ml-3.5">
+            <Text className="font-bold text-xl">Title</Text>
+            <Text className="text-gray-500">Subtitle</Text>
           </View>
         </View>
       </View>
-    </>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  body: {
-    fontSize: 26,
-    fontWeight: "bold",
-  },
-});

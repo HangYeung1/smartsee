@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Modal, Text } from "react-native";
+import { Text } from "react-native";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -36,16 +36,8 @@ function SearchStack() {
       initialRouteName={searchName}
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen
-        name={searchName}
-        component={SearchScreen}
-        options={{ cardStyle: { backgroundColor: "white" } }}
-      />
-      <Stack.Screen
-        name={breakdownName}
-        component={BreakdownScreen}
-        options={{ cardStyle: { backgroundColor: "white" } }}
-      />
+      <Stack.Screen name={searchName} component={SearchScreen} />
+      <Stack.Screen name={breakdownName} component={BreakdownScreen} />
     </Stack.Navigator>
   );
 }
@@ -67,16 +59,8 @@ function LibraryStack() {
       initialRouteName={libraryName}
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen
-        name={libraryName}
-        component={LibraryScreen}
-        options={{ cardStyle: { backgroundColor: "white" } }}
-      />
-      <Stack.Screen
-        name={breakdownName}
-        component={BreakdownScreen}
-        options={{ cardStyle: { backgroundColor: "white" } }}
-      />
+      <Stack.Screen name={libraryName} component={LibraryScreen} />
+      <Stack.Screen name={breakdownName} component={BreakdownScreen} />
     </Stack.Navigator>
   );
 }
@@ -88,56 +72,54 @@ export default function MainContainer() {
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName={cameraStackName}
-        screenOptions={
-          // Tab bar styling
-          ({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName;
-              let routeName = route.name;
+        screenOptions={({ route }) => ({
+          // Tab bar icons
+          tabBarIcon: ({ focused, color, size }) => {
+            let routeName = route.name;
+            let iconName;
 
-              if (routeName === cameraStackName) {
-                iconName = focused ? "camera" : "camera-outline";
-              } else if (routeName === searchStackName) {
-                iconName = focused ? "search" : "search-outline";
-              } else if (routeName === libraryStackName) {
-                iconName = focused ? "library" : "library-outline";
-              }
-              return <Ionicons name={iconName} size={size + 5} color={color} />;
-            },
-            tabBarLabel: ({ focused, color }) => {
-              let label;
-              let routeName = route.name;
+            if (routeName === cameraStackName) {
+              iconName = focused ? "camera" : "camera-outline";
+            } else if (routeName === searchStackName) {
+              iconName = focused ? "search" : "search-outline";
+            } else if (routeName === libraryStackName) {
+              iconName = focused ? "library" : "library-outline";
+            }
+            return <Ionicons name={iconName} size={size + 5} color={color} />;
+          },
+          // Tab bar labels
+          tabBarLabel: ({ focused, color }) => {
+            let routeName = route.name;
+            let label;
 
-              if (routeName === cameraStackName) {
-                label = "Camera";
-              } else if (routeName === searchStackName) {
-                label = "Search";
-              } else if (routeName === libraryStackName) {
-                label = "Library";
-              }
-              return (
-                <Text
-                  style={{
-                    color: color,
-                    fontSize: 10,
-                    marginTop: -10,
-                    fontWeight: focused ? "bold" : "normal",
-                  }}
-                >
-                  {label}
-                </Text>
-              );
-            },
-            tabBarStyle: {
-              height: 90,
-              backgroundColor: "black",
-              borderTopWidth: 0,
-            },
-            tabBarActiveTintColor: "mediumseagreen",
-            tabBarInactiveTintColor: "darkgrey",
-            headerShown: false,
-          })
-        }
+            if (routeName === cameraStackName) {
+              label = "Camera";
+            } else if (routeName === searchStackName) {
+              label = "Search";
+            } else if (routeName === libraryStackName) {
+              label = "Library";
+            }
+            return (
+              <Text
+                className="text-[10px] -mt-2.5"
+                style={{
+                  color: color,
+                  fontWeight: focused ? "bold" : "normal",
+                }}
+              >
+                {label}
+              </Text>
+            );
+          },
+          tabBarStyle: {
+            height: 90,
+            backgroundColor: "black",
+            borderTopWidth: 0,
+          },
+          tabBarActiveTintColor: "mediumseagreen",
+          tabBarInactiveTintColor: "darkgrey",
+          headerShown: false,
+        })}
       >
         <Tab.Screen name={searchStackName} component={SearchStack} />
         <Tab.Screen name={cameraStackName} component={CameraStack} />

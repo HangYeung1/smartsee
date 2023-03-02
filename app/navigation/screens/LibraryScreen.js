@@ -53,11 +53,11 @@ export default function LibraryScreen({ navigation }) {
 
   return (
     <View
+      className="flex-1 bg-white"
       style={{
         paddingTop: insets.top,
         paddingLeft: insets.left,
         paddingRight: insets.right,
-        flex: 1,
       }}
     >
       <StatusBar style="auto" />
@@ -72,7 +72,6 @@ export default function LibraryScreen({ navigation }) {
 
       {/* Collections */}
       <FlatList
-        style={{ flex: 1 }}
         data={collections}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (

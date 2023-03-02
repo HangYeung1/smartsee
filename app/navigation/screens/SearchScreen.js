@@ -23,7 +23,7 @@ function ComapnyPreview({ id, navigation }) {
 
   return (
     <Pressable
-      className="h-48 w-44 m-5"
+      className="w-44 m-4"
       onPress={() => navigation.navigate("Breakdown", { id: id })}
     >
       {/* Company Image */}
@@ -35,7 +35,7 @@ function ComapnyPreview({ id, navigation }) {
           shadowRadius: 10,
         }}
       >
-        <Image className="h-36 w-44 rounded-2xl" source={src} />
+        <Image className="h-36 w-full rounded-2xl" source={src} />
       </View>
 
       {/* Company Name and Tags */}
@@ -105,11 +105,11 @@ export default function SearchScreen({ navigation }) {
 
   return (
     <View
+      className="flex-1 bg-white"
       style={{
         paddingTop: insets.top,
         paddingLeft: insets.left,
         paddingRight: insets.right,
-        flex: 1,
       }}
     >
       <StatusBar style="auto" />
@@ -164,7 +164,7 @@ export default function SearchScreen({ navigation }) {
       </View>
 
       {/* Search Results */}
-      <View className="flex-1">
+      <View className="flex-1 justify-center">
         {/* Search Phrase Display */}
         <Text className="text-xl font-bold pl-7 mt-7 mb-2.5">
           {search === ""
@@ -175,7 +175,9 @@ export default function SearchScreen({ navigation }) {
         {/* Search Results Display */}
         <View className="flex-1">
           <FlatList
-            contentContainerStyle={{ alignItems: "center" }}
+            columnWrapperStyle={{
+              justifyContent: "space-between",
+            }}
             data={searchResult}
             numColumns={2}
             showsVerticalScrollIndicator={false}
