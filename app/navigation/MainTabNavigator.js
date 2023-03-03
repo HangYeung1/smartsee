@@ -1,17 +1,12 @@
-import { Text } from "react-native";
-
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
-import Ionicons from "react-native-vector-icons/Ionicons";
-
-// Screens
-import SearchScreen from "../screens/Search";
 import BreakdownScreen from "../screens/Breakdown";
-
 import CameraScreen from "../screens/Camera";
-
 import LibraryScreen from "../screens/Library";
+import SearchScreen from "../screens/Search";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { Text } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 // Screen tab names
 const searchStackName = "SearchStack";
@@ -101,7 +96,7 @@ export default function MainTabNavigator() {
             }
             return (
               <Text
-                className="text-[10px] -mt-2.5"
+                className="-mt-2.5 text-[10px]"
                 style={{
                   color: color,
                   fontWeight: focused ? "bold" : "normal",

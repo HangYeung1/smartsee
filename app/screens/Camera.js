@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { Text, View, Pressable, Button } from "react-native";
-
-import { StatusBar } from "expo-status-bar";
 import { Camera, CameraType } from "expo-camera";
+import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
+import { Button, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -54,23 +53,23 @@ export default function CameraScreen({ navigation }) {
         <View className="flex-1 justify-between">
           {/* Top Buttons */}
           <View className="items-end p-6">
-            <Pressable className="justify-center items-center h-12 w-12 rounded-full bg-black/20">
+            <Pressable className="h-12 w-12 items-center justify-center rounded-full bg-black/20">
               <Ionicons name="settings-outline" size={30} color="white" />
             </Pressable>
           </View>
 
           {/* Bottom Buttons */}
-          <View className="flex-row justify-evenly items-center mb-12">
-            <Pressable className="justify-center items-center h-12 w-12 rounded-full bg-black/20">
+          <View className="mb-12 flex-row items-center justify-evenly">
+            <Pressable className="h-12 w-12 items-center justify-center rounded-full bg-black/20">
               <Ionicons name="images-outline" size={30} color="white" />
             </Pressable>
 
-            <Pressable className="justify-center items-center h-24 w-24 rounded-full bg-black/20">
-              <View className="h-20 w-20 border-8 border-white rounded-full" />
+            <Pressable className="h-24 w-24 items-center justify-center rounded-full bg-black/20">
+              <View className="h-20 w-20 rounded-full border-8 border-white" />
             </Pressable>
 
             <Pressable
-              className="justify-center items-center h-12 w-12 rounded-full bg-black/20"
+              className="h-12 w-12 items-center justify-center rounded-full bg-black/20"
               onPress={toggleCameraType}
             >
               <Ionicons name="camera-reverse-outline" size={35} color="white" />

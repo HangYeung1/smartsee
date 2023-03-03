@@ -1,14 +1,18 @@
-import { useState } from "react";
-import { Text, View, Image } from "react-native";
-import { FlatList, ScrollView, TextInput, Pressable } from "react-native";
-
+import { COMPANIES } from "../assets/dummy-data/companies";
+import CompanyCard from "../components/CompanyCard";
 import { StatusBar } from "expo-status-bar";
+import Fuse from "fuse.js";
+import { useState } from "react";
+import {
+  FlatList,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Fuse from "fuse.js";
-
-import CompanyCard from "../components/CompanyCard";
-import { COMPANIES } from "../assets/dummy-data/companies";
 
 export default function SearchScreen({ navigation }) {
   // Search state
@@ -87,10 +91,10 @@ export default function SearchScreen({ navigation }) {
         </View>
 
         {/* Search Bar */}
-        <View className="flex-row items-center bg-gray-100 mx-6 px-2.5 rounded-2xl">
+        <View className="mx-6 flex-row items-center rounded-2xl bg-gray-100 px-2.5">
           <Ionicons name="search" size={24} color="black" />
           <TextInput
-            className="w-4/5 h-12 ml-2.5"
+            className="ml-2.5 h-12 w-4/5"
             value={search}
             onChangeText={handleSearchChange}
             placeholder="What company do you want to look up?"
@@ -106,7 +110,7 @@ export default function SearchScreen({ navigation }) {
         >
           {categories.map((category) => (
             <Pressable
-              className="justify-center items-center mr-1.5 bg-black rounded-full"
+              className="mr-1.5 items-center justify-center rounded-full bg-black"
               key={category.id}
               onPress={() => handleFilterChange(category.name)}
               style={[
@@ -117,7 +121,7 @@ export default function SearchScreen({ navigation }) {
                 },
               ]}
             >
-              <Text className="text-white text-sm mx-5 my-2 ">
+              <Text className="mx-5 my-2 text-sm text-white ">
                 {category.name}
               </Text>
             </Pressable>
@@ -128,7 +132,7 @@ export default function SearchScreen({ navigation }) {
       {/* Search Results */}
       <View className="flex-1 justify-center">
         {/* Search Phrase Display */}
-        <Text className="text-xl font-bold pl-7 mt-7 mb-2.5">
+        <Text className="mt-7 mb-2.5 pl-7 text-xl font-bold">
           {search === ""
             ? "All Companies"
             : searchResult.length + " Companies Found"}

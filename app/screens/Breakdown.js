@@ -1,11 +1,9 @@
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
-
-import { StatusBar } from "expo-status-bar";
+import { COMPANIES } from "../assets/dummy-data/companies";
 import { LinearGradient } from "expo-linear-gradient";
+import { StatusBar } from "expo-status-bar";
+import { Image, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
-
-import { COMPANIES } from "../assets/dummy-data/companies";
 
 export default function BreakdownScreen({ route, navigation }) {
   const insets = useSafeAreaInsets();
@@ -24,11 +22,11 @@ export default function BreakdownScreen({ route, navigation }) {
       <StatusBar style="light" />
 
       {/* Company Image */}
-      <Image className="w-full h-2/5" source={company.src} blurRadius={5} />
+      <Image className="h-2/5 w-full" source={company.src} blurRadius={5} />
 
       {/* Gradient Overlay */}
       <LinearGradient
-        className="absolute w-full h-36"
+        className="absolute h-36 w-full"
         colors={["rgba(0,0,0,0.8)", "transparent"]}
       />
 
@@ -42,9 +40,9 @@ export default function BreakdownScreen({ route, navigation }) {
       </Pressable>
 
       {/* Company Info */}
-      <View className="flex-1 -mt-6 px-7 pt-7 rounded-3xl bg-white" style={{}}>
+      <View className="-mt-6 flex-1  rounded-3xl bg-white px-7 pt-7" style={{}}>
         {/* Header */}
-        <View className="flex-row justify-between items-center mb-2.5">
+        <View className="mb-2.5 flex-row items-center justify-between">
           {/* Company Name and Category */}
           <View>
             <Text className="text-sm font-bold text-gray-500">
@@ -65,15 +63,15 @@ export default function BreakdownScreen({ route, navigation }) {
         </Text>
 
         {/* Detail Breakdown */}
-        <View className="flex-row my-4">
+        <View className="my-4 flex-row">
           {/* Icon */}
-          <View className="justify-center items-center h-10 w-10 bg-gray-100 rounded-full">
+          <View className="h-10 w-10 items-center justify-center rounded-full bg-gray-100">
             <Ionicons name="analytics-outline" size={30} color="black" />
           </View>
 
           {/* Text */}
           <View className="ml-3.5">
-            <Text className="font-bold text-xl">Title</Text>
+            <Text className="text-xl font-bold">Title</Text>
             <Text className="text-gray-500">Subtitle</Text>
           </View>
         </View>

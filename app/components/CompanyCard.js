@@ -1,8 +1,6 @@
-import { View, Pressable, Text, Image } from "react-native";
-
-import Ionicons from "react-native-vector-icons/Ionicons";
-
 import { COMPANIES } from "../assets/dummy-data/companies";
+import { Image, Pressable, Text, View } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function CompanyCard({ id, navigation }) {
   // Get company info
@@ -18,7 +16,7 @@ export default function CompanyCard({ id, navigation }) {
 
   return (
     <Pressable
-      className="w-44 m-4"
+      className="m-4 w-44"
       onPress={() => navigation.navigate("Breakdown", { id: id })}
     >
       {/* Company Image */}
@@ -34,10 +32,10 @@ export default function CompanyCard({ id, navigation }) {
       </View>
 
       {/* Company Name and Tags */}
-      <Text className="text-base ml-0.5 mt-3.5">{name}</Text>
-      <View className="flex-row items-center ml-1">
+      <Text className="ml-0.5 mt-3.5 text-base">{name}</Text>
+      <View className="ml-1 flex-row items-center">
         <Ionicons name="analytics-outline" size={18} color={color} />
-        <Text className="text-xs ml-0.5">{tagsDisplay}</Text>
+        <Text className="ml-0.5 text-xs">{tagsDisplay}</Text>
       </View>
     </Pressable>
   );

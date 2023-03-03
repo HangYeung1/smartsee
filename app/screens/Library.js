@@ -1,12 +1,10 @@
-import { Text, View, Image } from "react-native";
-import { Pressable, FlatList } from "react-native";
-
+import { COMPANIES } from "../assets/dummy-data/companies";
+import CompanyCard from "../components/CompanyCard";
 import { StatusBar } from "expo-status-bar";
+import { FlatList, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import CompanyCard from "../components/CompanyCard";
-import { COMPANIES } from "../assets/dummy-data/companies";
 const collections = require("../assets/dummy-data/collections.json");
 
 export default function LibraryScreen({ navigation }) {
@@ -39,8 +37,8 @@ export default function LibraryScreen({ navigation }) {
         renderItem={({ item }) => (
           <View>
             {/* Collection Name */}
-            <View className="flex-row pl-7 mt-7">
-              <Text className="text-xl font-bold mr-2.5">{item.name}</Text>
+            <View className="mt-7 flex-row pl-7">
+              <Text className="mr-2.5 text-xl font-bold">{item.name}</Text>
               <Ionicons name={item.icon} size={24} color="black" />
             </View>
 
