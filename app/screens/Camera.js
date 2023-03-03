@@ -39,7 +39,7 @@ export default function CameraScreen({ navigation }) {
 
   return (
     <View
-      className="flex-1"
+      className="flex-1 bg-black"
       style={{
         paddingTop: insets.top,
         paddingLeft: insets.left,

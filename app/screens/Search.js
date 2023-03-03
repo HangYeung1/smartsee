@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Fuse from "fuse.js";
 
-import { COMPANIES } from "../../assets/companyinfo";
+import { COMPANIES } from "../assets/dummy-data/companies";
 
 function ComapnyPreview({ id, navigation }) {
   // Get company info

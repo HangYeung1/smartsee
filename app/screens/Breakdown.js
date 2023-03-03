@@ -5,7 +5,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import { COMPANIES } from "../../assets/companyinfo";
+import { COMPANIES } from "../assets/dummy-data/companies";
 
 export default function BreakdownScreen({ route, navigation }) {
   const insets = useSafeAreaInsets();

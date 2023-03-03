@@ -4,7 +4,7 @@ export const COMPANIES = [
     name: "Google",
     color: "orange",
     tags: ["Carbon Neutral", "Good Workplace"],
-    src: require("./images/0.png"),
+    src: require("./0.png"),
     category: "Electronic",
   },
   {
@@ -12,7 +12,7 @@ export const COMPANIES = [
     name: "Dell",
     color: "green",
     tags: ["Good Privacy", "LGBTQ Safe"],
-    src: require("./images/1.png"),
+    src: require("./1.png"),
     category: "Electronic",
   },
   {
@@ -20,7 +20,7 @@ export const COMPANIES = [
     name: "Apple",
     color: "red",
     tags: ["Overworks", "Overseas Manufacturing"],
-    src: require("./images/2.png"),
+    src: require("./2.png"),
     category: "Electronic",
   },
   {
@@ -28,7 +28,7 @@ export const COMPANIES = [
     name: "Microsoft",
     color: "green",
     tags: ["Good Working Conditions", "Good Workplace"],
-    src: require("./images/3.png"),
+    src: require("./3.png"),
     category: "Electronic",
   },
   {
@@ -36,7 +36,7 @@ export const COMPANIES = [
     name: "Amazon",
     color: "red",
     tags: ["Toxic Workplace", "Overworks"],
-    src: require("./images/4.png"),
+    src: require("./4.png"),
     category: "Electronic",
   },
   {
@@ -44,7 +44,7 @@ export const COMPANIES = [
     name: "Netflix",
     color: "orange",
     tags: ["Transparency", "Good Workplace"],
-    src: require("./images/5.png"),
+    src: require("./5.png"),
     category: "Electronic",
   },
   {
@@ -52,7 +52,7 @@ export const COMPANIES = [
     name: "Adidas",
     color: "green",
     tags: ["Good Workplace", "Good Privacy"],
-    src: require("./images/6.png"),
+    src: require("./6.png"),
     category: "Clothing",
   },
   {
@@ -60,7 +60,7 @@ export const COMPANIES = [
     name: "Nike",
     color: "red",
     tags: ["Overseas Manufacturing", "Overworks"],
-    src: require("./images/7.png"),
+    src: require("./7.png"),
     category: "Clothing",
   },
   {
@@ -68,7 +68,7 @@ export const COMPANIES = [
     name: "McDonalds",
     color: "orange",
     tags: ["Overseas Manufacturing", "Overworks"],
-    src: require("./images/8.png"),
+    src: require("./8.png"),
     category: "Food",
   },
   {
@@ -76,7 +76,7 @@ export const COMPANIES = [
     name: "Starbucks",
     color: "green",
     tags: ["Good Workplace", "Good Privacy"],
-    src: require("./images/9.png"),
+    src: require("./9.png"),
     category: "Food",
   },
   {
@@ -84,7 +84,7 @@ export const COMPANIES = [
     name: "Warner Bros",
     color: "green",
     tags: ["Good Workplace", "Good Privacy"],
-    src: require("./images/10.png"),
+    src: require("./10.png"),
     category: "Leisure",
   },
   {
@@ -92,7 +92,7 @@ export const COMPANIES = [
     name: "Disney",
     color: "red",
     tags: ["Overseas Manufacturing", "Overworks"],
-    src: require("./images/11.png"),
+    src: require("./11.png"),
     category: "Leisure",
   },
 ];

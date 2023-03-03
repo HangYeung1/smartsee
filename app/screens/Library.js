@@ -5,8 +5,8 @@ import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import { COMPANIES } from "../../assets/companyinfo";
-const collections = require("../../assets/collections.json");
+import { COMPANIES } from "../assets/dummy-data/companies";
+const collections = require("../assets/dummy-data/collections.json");
 
 function ComapnyPreview({ id, navigation }) {
   // Get company info

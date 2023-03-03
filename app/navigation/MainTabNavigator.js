@@ -6,12 +6,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 // Screens
-import SearchScreen from "./screens/SearchScreen";
-import BreakdownScreen from "./screens/BreakdownScreen";
+import SearchScreen from "../screens/Search";
+import BreakdownScreen from "../screens/Breakdown";
 
-import CameraScreen from "./screens/CameraScreen";
+import CameraScreen from "../screens/Camera";
 
-import LibraryScreen from "./screens/LibraryScreen";
+import LibraryScreen from "../screens/Library";
 
 // Screen tab names
 const searchStackName = "SearchStack";
@@ -67,7 +67,7 @@ function LibraryStack() {
 
 const Tab = createBottomTabNavigator();
 
-export default function MainContainer() {
+export default function MainTabNavigator() {
   return (
     <NavigationContainer>
       <Tab.Navigator

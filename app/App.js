@@ -1,5 +1,5 @@
-import MainContainer from "./navigation/MainContainer";
+import MainTabNavigator from "./navigation/MainTabNavigator";
 
 export default function App() {
-  return <MainContainer />;
+  return <MainTabNavigator />;
 }
