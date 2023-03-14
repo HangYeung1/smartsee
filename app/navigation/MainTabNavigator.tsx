@@ -9,19 +9,19 @@ import { Text } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 // Screen tab names
-const searchStackName = "SearchStack";
-const cameraStackName = "CameraStack";
-const libraryStackName = "LibraryStack";
+const searchStackName: string = "SearchStack";
+const cameraStackName: string = "CameraStack";
+const libraryStackName: string = "LibraryStack";
 
 // Search screen stack names
-const searchName = "Search";
-const breakdownName = "Breakdown";
+const searchName: string = "Search";
+const breakdownName: string = "Breakdown";
 
 // Camera screen stack names
-const cameraName = "Camera";
+const cameraName: string = "Camera";
 
 // Library screen stack names
-const libraryName = "Library";
+const libraryName: string = "Library";
 
 const Stack = createStackNavigator();
 
@@ -70,30 +70,50 @@ export default function MainTabNavigator() {
         screenOptions={({ route }) => ({
           // Tab bar icons
           tabBarIcon: ({ focused, color, size }) => {
-            let routeName = route.name;
-            let iconName;
+            let routeName: string = route.name;
+            let iconName: string;
 
-            if (routeName === cameraStackName) {
-              iconName = focused ? "camera" : "camera-outline";
-            } else if (routeName === searchStackName) {
-              iconName = focused ? "search" : "search-outline";
-            } else if (routeName === libraryStackName) {
-              iconName = focused ? "library" : "library-outline";
+            switch (routeName) {
+              case searchStackName:
+                iconName = "search";
+                break;
+              case cameraStackName:
+                iconName = "camera";
+                break;
+              case libraryStackName:
+                iconName = "library";
+                break;
+              default:
+                iconName = "bug";
+                break;
             }
+
+            if (focused) {
+              iconName = iconName.concat("-outline");
+            }
+
             return <Ionicons name={iconName} size={size + 5} color={color} />;
           },
           // Tab bar labels
           tabBarLabel: ({ focused, color }) => {
-            let routeName = route.name;
-            let label;
+            let routeName: string = route.name;
+            let label: string;
 
-            if (routeName === cameraStackName) {
-              label = "Camera";
-            } else if (routeName === searchStackName) {
-              label = "Search";
-            } else if (routeName === libraryStackName) {
-              label = "Library";
+            switch (routeName) {
+              case searchStackName:
+                label = "Search";
+                break;
+              case cameraStackName:
+                label = "Camera";
+                break;
+              case libraryStackName:
+                label = "Library";
+                break;
+              default:
+                label = "Error";
+                break;
             }
+
             return (
               <Text
                 className="-mt-2.5 text-[10px]"

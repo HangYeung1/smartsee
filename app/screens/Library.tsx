@@ -2,14 +2,14 @@ import { COMPANIES } from "../assets/dummy-data/companies";
 import CompanyCard from "../components/CompanyCard";
 import { StatusBar } from "expo-status-bar";
 import { FlatList, Pressable, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const collections = require("../assets/dummy-data/collections.json");
 
 export default function LibraryScreen({ navigation }) {
   // Get safe area insets
-  const insets = useSafeAreaInsets();
+  const insets: EdgeInsets = useSafeAreaInsets();
 
   return (
     <View
@@ -34,6 +34,7 @@ export default function LibraryScreen({ navigation }) {
       <FlatList
         data={collections}
         showsVerticalScrollIndicator={false}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View>
             {/* Collection Name */}
@@ -52,13 +53,11 @@ export default function LibraryScreen({ navigation }) {
               renderItem={({ item }) => (
                 <CompanyCard id={item.id} navigation={navigation} />
               )}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.id.toString()}
             />
           </View>
         )}
-      >
-        keyExtractor = {(item) => item.id}
-      </FlatList>
+      />
     </View>
   );
 }

@@ -2,14 +2,14 @@ import { COMPANIES } from "../assets/dummy-data/companies";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
 import { Image, Pressable, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function BreakdownScreen({ route, navigation }) {
-  const insets = useSafeAreaInsets();
+  const insets: EdgeInsets = useSafeAreaInsets();
 
   const { id } = route.params;
-  const company = COMPANIES.find((company) => company.id === id);
+  const company: Company = COMPANIES.find((company) => company.id === id);
 
   return (
     <View

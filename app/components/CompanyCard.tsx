@@ -9,7 +9,7 @@ export default function CompanyCard({ id, navigation }) {
   );
 
   // Format tags
-  let tagsDisplay = tags.join(", ");
+  let tagsDisplay: string = tags.join(", ");
   if (tagsDisplay.length > 25) {
     tagsDisplay = tagsDisplay.substring(0, 22) + "...";
   }

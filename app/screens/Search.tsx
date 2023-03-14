@@ -11,16 +11,16 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function SearchScreen({ navigation }) {
   // Search state
-  const [search, setSearch] = useState("");
-  const [activeFilters, setActiveFilters] = useState([]);
+  const [search, setSearch] = useState<string>("");
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
   // Get safe area insets
-  const insets = useSafeAreaInsets();
+  const insets: EdgeInsets = useSafeAreaInsets();
 
   // Categories
   const categories = [
@@ -36,7 +36,7 @@ export default function SearchScreen({ navigation }) {
   ];
 
   // Handle filter changes
-  const handleFilterChange = (change) => {
+  const handleFilterChange = (change: string) => {
     if (!activeFilters.includes(change)) {
       setActiveFilters([...activeFilters, change]);
     } else {
@@ -45,7 +45,7 @@ export default function SearchScreen({ navigation }) {
   };
 
   // Handle search changes
-  const handleSearchChange = (newSearch) => {
+  const handleSearchChange = (newSearch: string) => {
     setSearch(newSearch);
   };
 
@@ -150,7 +150,7 @@ export default function SearchScreen({ navigation }) {
             renderItem={({ item }) => (
               <CompanyCard id={item.id} navigation={navigation} />
             )}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id.toString()}
           />
         </View>
       </View>
