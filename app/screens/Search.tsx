@@ -139,7 +139,15 @@ export default function SearchScreen({ navigation }) {
         </Text>
 
         {/* Search Results Display */}
-        <View className="flex-1">
+        <View
+          className="flex-1"
+          style={{
+            shadowColor: "black",
+            shadowOpacity: 0.2,
+            shadowOffset: { width: 0, height: 10 },
+            shadowRadius: 10,
+          }}
+        >
           <FlatList
             columnWrapperStyle={{
               justifyContent: "space-between",

@@ -36,7 +36,7 @@ export default function BreakdownScreen({ route, navigation }) {
         style={{ top: insets.top + 30 }}
         onPress={() => navigation.goBack()}
       >
-        <Ionicons name="chevron-back-outline" size={35} color="white" />
+        <Ionicons name="chevron-back" size={35} color="white" />
       </Pressable>
 
       {/* Company Info */}

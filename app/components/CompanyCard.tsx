@@ -20,16 +20,7 @@ export default function CompanyCard({ id, navigation }) {
       onPress={() => navigation.navigate("Breakdown", { id: id })}
     >
       {/* Company Image */}
-      <View
-        style={{
-          shadowColor: "black",
-          shadowOpacity: 0.2,
-          shadowOffset: { width: 0, height: 10 },
-          shadowRadius: 10,
-        }}
-      >
-        <Image className="h-36 w-full rounded-2xl" source={src} />
-      </View>
+      <Image className="h-36 w-full rounded-2xl" source={src} />
 
       {/* Company Name and Tags */}
       <Text className="ml-0.5 mt-3.5 text-base">{name}</Text>

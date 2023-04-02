@@ -45,6 +45,12 @@ export default function LibraryScreen({ navigation }) {
 
             {/* Collection Companies */}
             <FlatList
+              style={{
+                shadowColor: "black",
+                shadowOpacity: 0.2,
+                shadowOffset: { width: 0, height: 10 },
+                shadowRadius: 10,
+              }}
               data={COMPANIES.filter((company) =>
                 item.list.includes(company.id)
               )}
