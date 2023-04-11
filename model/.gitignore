@@ -1,0 +1,5 @@
+# Dataset
+openlogo/
+datasets/
+.ipynb_checkpoints/
+__pycache__/

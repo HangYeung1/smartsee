@@ -1,5 +1,5 @@
-import { COMPANIES } from "../assets/dummy-data/companies";
 import CompanyCard from "../components/CompanyCard";
+import { useCompanies } from "../hooks/useCompanies";
 import { StatusBar } from "expo-status-bar";
 import Fuse from "fuse.js";
 import { useState } from "react";
@@ -15,32 +15,22 @@ import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function SearchScreen({ navigation }) {
-  // Search state
+  // State
   const [search, setSearch] = useState<string>("");
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [activeIndustries, setActiveIndustries] = useState<string[]>([]);
 
-  // Get safe area insets
+  // Hooks
+  const [companies, industries] = useCompanies();
   const insets: EdgeInsets = useSafeAreaInsets();
-
-  // Categories
-  const categories = [
-    { name: "Clothing", id: 0 },
-    { name: "Electronic", id: 1 },
-    { name: "Food", id: 2 },
-    { name: "Leisure", id: 3 },
-    { name: "Medical", id: 4 },
-    { name: "Necessities", id: 5 },
-    { name: "Sports", id: 6 },
-    { name: "Transportation", id: 7 },
-    { name: "Other", id: 8 },
-  ];
 
   // Handle filter changes
   const handleFilterChange = (change: string) => {
-    if (!activeFilters.includes(change)) {
-      setActiveFilters([...activeFilters, change]);
+    if (!activeIndustries.includes(change)) {
+      setActiveIndustries([...activeIndustries, change]);
     } else {
-      setActiveFilters(activeFilters.filter((category) => category !== change));
+      setActiveIndustries(
+        activeIndustries.filter((industry) => industry !== change)
+      );
     }
   };
 
@@ -50,13 +40,11 @@ export default function SearchScreen({ navigation }) {
   };
 
   // When filter changes, change what companies are displayed
-  let searchResult = [];
-  if (activeFilters.length > 0) {
-    searchResult = COMPANIES.filter((company) =>
-      activeFilters.includes(company.category)
+  let filteredCompanies = JSON.parse(JSON.stringify(companies));
+  if (activeIndustries.length > 0) {
+    filteredCompanies = filteredCompanies.filter((company) =>
+      activeIndustries.includes(company.industry)
     );
-  } else {
-    searchResult = COMPANIES;
   }
 
   // When search changes, change what companies are displayed
@@ -64,9 +52,9 @@ export default function SearchScreen({ navigation }) {
     const options = {
       keys: ["name"],
     };
-    const fuse = new Fuse(searchResult, options);
-    searchResult = fuse.search(search);
-    searchResult = searchResult.map((result) => result.item);
+    const fuse = new Fuse(filteredCompanies, options);
+    filteredCompanies = fuse.search(search);
+    filteredCompanies = filteredCompanies.map((result) => result.item);
   }
 
   return (
@@ -83,10 +71,10 @@ export default function SearchScreen({ navigation }) {
       {/* Search Header */}
       <View>
         {/* Page Title */}
-        <View className="flex-row items-center justify-between px-8 pt-8 pb-2.5">
+        <View className="flex-row items-center justify-between px-8 pb-2.5 pt-8">
           <Text className="text-3xl font-bold">Search</Text>
           <Pressable>
-            <Ionicons name="settings-outline" size={30} color="black" />
+            <Ionicons name="filter-outline" size={30} color="black" />
           </Pressable>
         </View>
 
@@ -101,29 +89,28 @@ export default function SearchScreen({ navigation }) {
           />
         </View>
 
-        {/* Search Filters */}
+        {/* Industry Filter Buttons */}
         <ScrollView
           className="mt-2.5"
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ marginLeft: 25, paddingRight: 50 }}
+          contentContainerStyle={{ marginLeft: 25, paddingRight: 40 }}
         >
-          {categories.map((category) => (
+          {/* Button for Each Industry */}
+          {industries.map((industry) => (
             <Pressable
               className="mr-1.5 items-center justify-center rounded-full bg-black"
-              key={category.id}
-              onPress={() => handleFilterChange(category.name)}
+              key={industries.indexOf(industry)}
+              onPress={() => handleFilterChange(industry)}
               style={[
                 {
-                  backgroundColor: activeFilters.includes(category.name)
+                  backgroundColor: activeIndustries.includes(industry)
                     ? "mediumseagreen"
                     : "black",
                 },
               ]}
             >
-              <Text className="mx-5 my-2 text-sm text-white ">
-                {category.name}
-              </Text>
+              <Text className="mx-5 my-2 text-sm text-white ">{industry}</Text>
             </Pressable>
           ))}
         </ScrollView>
@@ -131,32 +118,24 @@ export default function SearchScreen({ navigation }) {
 
       {/* Search Results */}
       <View className="flex-1 justify-center">
-        {/* Search Phrase Display */}
-        <Text className="mt-7 mb-2.5 pl-7 text-xl font-bold">
+        {/* Number of Results Display */}
+        <Text className="mb-2.5 mt-7 pl-7 text-xl font-bold">
           {search === ""
             ? "All Companies"
-            : searchResult.length + " Companies Found"}
+            : filteredCompanies.length + " Companies Found"}
         </Text>
 
         {/* Search Results Display */}
-        <View
-          className="flex-1"
-          style={{
-            shadowColor: "black",
-            shadowOpacity: 0.2,
-            shadowOffset: { width: 0, height: 10 },
-            shadowRadius: 10,
-          }}
-        >
+        <View className="flex-1">
           <FlatList
             columnWrapperStyle={{
               justifyContent: "space-between",
             }}
-            data={searchResult}
+            data={filteredCompanies}
             numColumns={2}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
-              <CompanyCard id={item.id} navigation={navigation} />
+              <CompanyCard company={item} navigation={navigation} />
             )}
             keyExtractor={(item) => item.id.toString()}
           />

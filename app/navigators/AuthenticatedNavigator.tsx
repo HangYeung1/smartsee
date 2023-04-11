@@ -1,8 +1,8 @@
-import BreakdownScreen from "../screens/Breakdown";
-import CameraScreen from "../screens/Camera";
-import DetectionScreen from "../screens/Detection";
-import LibraryScreen from "../screens/Library";
-import SearchScreen from "../screens/Search";
+import BreakdownScreen from "../screens/BreakdownScreen";
+import CameraScreen from "../screens/CameraScreen";
+import DetectionScreen from "../screens/DetectionScreen";
+import LibraryScreen from "../screens/LibraryScreen";
+import SearchScreen from "../screens/SearchScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -15,11 +15,11 @@ const cameraStackName: string = "CameraStack";
 const libraryStackName: string = "LibraryStack";
 
 // Screen names
-const searchName: string = "Search";
-const breakdownName: string = "Breakdown";
-const cameraName: string = "Camera";
-const detectionName: string = "Detection";
-const libraryName: string = "Library";
+const searchName: string = "SearchScreen";
+const breakdownName: string = "BreakdownScreen";
+const cameraName: string = "CameraScreen";
+const detectionName: string = "DetectionScreen";
+const libraryName: string = "LibraryScreen";
 
 const Stack = createStackNavigator();
 
@@ -66,7 +66,7 @@ function LibraryStack() {
 
 const Tab = createBottomTabNavigator();
 
-export default function MainTabNavigator() {
+export default function AuthenticatedNavigator() {
   return (
     <NavigationContainer>
       <Tab.Navigator

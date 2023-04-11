@@ -10,7 +10,6 @@ export default function CameraScreen({ navigation }) {
   // Camera state
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [camera, setCamera] = useState<Camera>(null);
-
   const [type, setType] = useState(CameraType.back);
 
   // Get safe area insets
@@ -21,11 +20,10 @@ export default function CameraScreen({ navigation }) {
     requestPermission();
   }, []);
 
-  // If camera permissions are not granted, ask for them
-  if (!permission) {
-    return <View />;
-  }
+  // If camera permissions are not yet determined, show nothing
+  if (!permission) return null;
 
+  // If camera permissions are denied, show a button to request them
   if (permission.granted === false) {
     return (
       <View className="flex-1">
@@ -86,6 +84,7 @@ export default function CameraScreen({ navigation }) {
         <View className="flex-1 justify-between">
           {/* Top Buttons */}
           <View className="items-end p-6">
+            {/* Settings Button */}
             <Pressable className="h-12 w-12 items-center justify-center rounded-full bg-black/20">
               <Ionicons name="settings-outline" size={30} color="white" />
             </Pressable>
@@ -93,20 +92,21 @@ export default function CameraScreen({ navigation }) {
 
           {/* Bottom Buttons */}
           <View className="mb-12 flex-row items-center justify-evenly">
+            {/* Media Library Button */}
             <Pressable
               className="h-12 w-12 items-center justify-center rounded-full bg-black/20"
               onPress={pickImageAsync}
             >
               <Ionicons name="images-outline" size={30} color="white" />
             </Pressable>
-
+            {/* Take Picture Button */}
             <Pressable
               className="h-24 w-24 items-center justify-center rounded-full bg-black/20"
               onPress={takePicture}
             >
               <View className="h-20 w-20 rounded-full border-8 border-white" />
             </Pressable>
-
+            {/* Flip Camera Button */}
             <Pressable
               className="h-12 w-12 items-center justify-center rounded-full bg-black/20"
               onPress={toggleCameraType}
