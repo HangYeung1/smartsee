@@ -55,7 +55,9 @@ export default function CameraScreen({ navigation }) {
       quality: 1,
     });
     if (!result.canceled) {
-      navigation.navigate("Detection", { image: result.assets[0].uri });
+      navigation.navigate("DetectionScreen", {
+        imageUri: result.assets[0].uri,
+      });
     }
   };
 
@@ -63,7 +65,7 @@ export default function CameraScreen({ navigation }) {
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync({ quality: 1 });
-      navigation.navigate("Detection", { image: data.uri });
+      navigation.navigate("DetectionScreen", { imageUri: data.uri });
     }
   };
 
