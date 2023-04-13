@@ -1,3 +1,7 @@
+import { fetchCompanies } from "../redux/companiesSlice";
+import { AppDispatch } from "../redux/store";
+import { fetchCollections } from "../redux/userSlice";
+import { selectCollections } from "../redux/userSlice";
 import BreakdownScreen from "../screens/BreakdownScreen";
 import CameraScreen from "../screens/CameraScreen";
 import DetectionScreen from "../screens/DetectionScreen";
@@ -6,8 +10,11 @@ import SearchScreen from "../screens/SearchScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useEffect } from "react";
 import { Text } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 // Screen tab names
 const searchStackName: string = "SearchStack";
@@ -67,6 +74,13 @@ function LibraryStack() {
 const Tab = createBottomTabNavigator();
 
 export default function AuthenticatedNavigator() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchCompanies());
+    dispatch(fetchCollections());
+  }, []);
+
   return (
     <NavigationContainer>
       <Tab.Navigator

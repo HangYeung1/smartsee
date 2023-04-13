@@ -1,5 +1,6 @@
 import CompanyCard from "../components/CompanyCard";
-import { useCompanies } from "../hooks/useCompanies";
+import { selectCompanies } from "../redux/companiesSlice";
+import { selectIndustries } from "../redux/companiesSlice";
 import { StatusBar } from "expo-status-bar";
 import Fuse from "fuse.js";
 import { useState } from "react";
@@ -13,6 +14,7 @@ import {
 } from "react-native";
 import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useSelector } from "react-redux";
 
 export default function SearchScreen({ navigation }) {
   // State
@@ -20,8 +22,9 @@ export default function SearchScreen({ navigation }) {
   const [activeIndustries, setActiveIndustries] = useState<string[]>([]);
 
   // Hooks
-  const [companies, industries] = useCompanies();
   const insets: EdgeInsets = useSafeAreaInsets();
+  const companies = useSelector(selectCompanies);
+  const industries = useSelector(selectIndustries);
 
   // Handle filter changes
   const handleFilterChange = (change: string) => {
@@ -97,20 +100,22 @@ export default function SearchScreen({ navigation }) {
           contentContainerStyle={{ marginLeft: 25, paddingRight: 40 }}
         >
           {/* Button for Each Industry */}
-          {industries.map((industry) => (
+          {industries.map((industryObj) => (
             <Pressable
               className="mr-1.5 items-center justify-center rounded-full bg-black"
-              key={industries.indexOf(industry)}
-              onPress={() => handleFilterChange(industry)}
+              key={industryObj.name}
+              onPress={() => handleFilterChange(industryObj.name)}
               style={[
                 {
-                  backgroundColor: activeIndustries.includes(industry)
+                  backgroundColor: activeIndustries.includes(industryObj.name)
                     ? "mediumseagreen"
                     : "black",
                 },
               ]}
             >
-              <Text className="mx-5 my-2 text-sm text-white ">{industry}</Text>
+              <Text className="mx-5 my-2 text-sm text-white ">
+                {industryObj.name}
+              </Text>
             </Pressable>
           ))}
         </ScrollView>

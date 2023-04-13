@@ -1,8 +1,10 @@
 import { auth } from "./firebaseConfig";
 import AuthenticatedNavigator from "./navigators/AuthenticatedNavigator";
 import UnauthenticatedNavigator from "./navigators/UnauthenticatedNavigator";
+import store from "./redux/store";
 import { onAuthStateChanged } from "firebase/auth";
 import { useState } from "react";
+import { Provider } from "react-redux";
 
 export default function App() {
   // Signed in state
@@ -22,5 +24,9 @@ export default function App() {
   if (signedIn === undefined) return null;
 
   // Return the appropriate navigator
-  return signedIn ? <AuthenticatedNavigator /> : <UnauthenticatedNavigator />;
+  return (
+    <Provider store={store}>
+      {signedIn ? <AuthenticatedNavigator /> : <UnauthenticatedNavigator />}
+    </Provider>
+  );
 }

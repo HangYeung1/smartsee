@@ -16,10 +16,9 @@ export default function AuthenticationScreen() {
           try {
             const userTemplate = {
               collections: {
-                "Recently Viewed": [],
-                Bookmarks: [],
-                _icons: {},
-                _order: [],
+                recentlyViewed: [],
+                bookmarks: [],
+                _order: ["justAdded", "recentlyViewed", "bookmarks"],
               },
             };
             const userDoc = await setDoc(

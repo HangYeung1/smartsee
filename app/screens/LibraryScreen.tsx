@@ -1,14 +1,12 @@
 import CompanyCard from "../components/CompanyCard";
-import { db } from "../firebaseConfig";
-import { auth } from "../firebaseConfig";
-import { useCompanies } from "../hooks/useCompanies";
+import { selectCompanies } from "../redux/companiesSlice";
+import { selectCollections } from "../redux/userSlice";
 import { StatusBar } from "expo-status-bar";
-import { getDoc, doc } from "firebase/firestore";
-import { useEffect, useState } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useSelector } from "react-redux";
 
 function CollectionCarousel({ navigation, data, name, icon }) {
   return (
@@ -35,29 +33,8 @@ function CollectionCarousel({ navigation, data, name, icon }) {
 export default function LibraryScreen({ navigation }) {
   // Hooks
   const insets: EdgeInsets = useSafeAreaInsets();
-  const [companies] = useCompanies();
-  const [collections, setCollections] = useState<any>({
-    "Recently Viewed": [],
-    Bookmarks: [],
-    _icons: {},
-    _order: [],
-  });
-
-  // Fetch user collections
-  useEffect(() => {
-    const userDoc = doc(db, "users", auth.currentUser.uid);
-    const getCollections = async () => {
-      try {
-        const data: any = await getDoc(userDoc);
-        const userCollections = data.data().collections;
-        setCollections(userCollections);
-        console.log("Collections fetched successfully!");
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    getCollections();
-  }, []);
+  const companies = useSelector(selectCompanies);
+  const collections = useSelector(selectCollections);
 
   return (
     <View
@@ -93,7 +70,7 @@ export default function LibraryScreen({ navigation }) {
         <CollectionCarousel
           navigation={navigation}
           data={companies.filter((company) =>
-            collections["Recently Viewed"].includes(company.id)
+            collections.recentlyViewed.includes(company.id)
           )}
           name="Recently Viewed"
           icon="time-outline"
@@ -102,7 +79,7 @@ export default function LibraryScreen({ navigation }) {
         <CollectionCarousel
           navigation={navigation}
           data={companies.filter((company) =>
-            collections["Bookmarks"].includes(company.id)
+            collections.bookmarks.includes(company.id)
           )}
           name="Bookmarks"
           icon="bookmark-outline"
