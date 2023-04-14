@@ -1,16 +1,34 @@
+import { AppDispatch } from "../redux/store";
+import {
+  postBookmarks,
+  postRecents,
+  selectBookmarks,
+} from "../redux/userSlice";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function BreakdownScreen({ route, navigation }) {
   // Get safe area insets
   const insets: EdgeInsets = useSafeAreaInsets();
 
+  // Check if company is bookmarked
+  const dispatch = useDispatch<AppDispatch>();
+  const bookmarks = useSelector(selectBookmarks);
+  let bookmarked: boolean = bookmarks.includes(route.params.company.id);
+
+  // Add company to recents
+  useEffect(() => {
+    dispatch(postRecents(route.params.company.id));
+  }, []);
+
   // Get company data
-  const { company } = route.params;
   const {
+    id,
     name,
     industry,
     description,
@@ -20,15 +38,9 @@ export default function BreakdownScreen({ route, navigation }) {
     esgSocial,
     esgGovernance,
     controversy,
-  } = company;
+  } = route.params.company;
 
   // Calculate ESG level
-  // 0-10 Negligible
-  // 10-20 Low
-  // 20-30 Moderate
-  // 30-40 High
-  // 40+ Severe
-
   let esgLevel: string;
   let esgColor: string;
 
@@ -50,12 +62,6 @@ export default function BreakdownScreen({ route, navigation }) {
   }
 
   // Calculate controversy level
-  // 1: Low
-  // 2: Moderate
-  // 3: Significant
-  // 4: High
-  // 5: Severe
-
   let controversyLevel: string;
   let controversyColor: string;
 
@@ -86,6 +92,10 @@ export default function BreakdownScreen({ route, navigation }) {
       controversyColor = "gray";
       break;
   }
+
+  const handleBookmark = () => {
+    dispatch(postBookmarks(id));
+  };
 
   return (
     <View
@@ -156,8 +166,12 @@ export default function BreakdownScreen({ route, navigation }) {
           </View>
 
           {/* Bookmark Button */}
-          <Pressable>
-            <Ionicons name="bookmark-outline" size={30} color="black" />
+          <Pressable onPress={handleBookmark}>
+            <Ionicons
+              name={bookmarked ? "bookmark" : "bookmark-outline"}
+              size={30}
+              color="black"
+            />
           </Pressable>
         </View>
 

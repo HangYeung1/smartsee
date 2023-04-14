@@ -6,8 +6,32 @@ import {
 } from "@reduxjs/toolkit";
 import { collection, getDocs } from "firebase/firestore";
 
+// Interfaces
+interface Company {
+  id: string;
+  name: string;
+  industry: string;
+  description: string;
+  imageURL: string;
+  esg: number;
+  esgEnvironment: number;
+  esgSocial: number;
+  esgGovernance: number;
+  controversy: number;
+}
+
+interface Industry {
+  name: string;
+  count: number;
+}
+interface CompaniesState {
+  list: Company[];
+  industries: Industry[];
+  status: "idle" | "loading" | "success" | "failed";
+}
+
 // Initial state
-const initialState = {
+const initialState: CompaniesState = {
   list: [],
   industries: [],
   status: "idle",
@@ -20,10 +44,21 @@ export const fetchCompanies = createAsyncThunk(
   async () => {
     const companiesCollection = collection(db, "companies");
     const data = await getDocs(companiesCollection);
-    return data.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    return data.docs.map((doc) => {
+      const extracted = doc.data();
+      return {
+        id: doc.id,
+        name: extracted.name,
+        industry: extracted.industry,
+        description: extracted.description,
+        imageURL: extracted.imageURL,
+        esg: extracted.esg,
+        esgEnvironment: extracted.esgEnvironment,
+        esgSocial: extracted.esgSocial,
+        esgGovernance: extracted.esgGovernance,
+        controversy: extracted.controversy,
+      };
+    });
   }
 );
 
@@ -38,9 +73,14 @@ const companiesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchCompanies.pending, (state, action) => {
+        // Log pending
+        console.log("Companies: Fetching...");
+        state.status = "loading";
+      })
       .addCase(fetchCompanies.fulfilled, (state, action) => {
         // Log success
-        console.log("Fetched companies successfully!");
+        console.log("Companies: Successful!");
 
         // Set companies
         state.list = action.payload;
@@ -63,7 +103,7 @@ const companiesSlice = createSlice({
       })
       .addCase(fetchCompanies.rejected, (state, action) => {
         // Log failure
-        console.log("Failed to fetch companies!");
+        console.log("Companies: Failed.");
         state.status = "failed";
       });
   },

@@ -1,7 +1,6 @@
-import { fetchCompanies } from "../redux/companiesSlice";
+import { fetchCompanies, selectCompanies } from "../redux/companiesSlice";
 import { AppDispatch } from "../redux/store";
 import { fetchCollections } from "../redux/userSlice";
-import { selectCollections } from "../redux/userSlice";
 import BreakdownScreen from "../screens/BreakdownScreen";
 import CameraScreen from "../screens/CameraScreen";
 import DetectionScreen from "../screens/DetectionScreen";
@@ -74,12 +73,27 @@ function LibraryStack() {
 const Tab = createBottomTabNavigator();
 
 export default function AuthenticatedNavigator() {
+  // Redux hooks
   const dispatch = useDispatch<AppDispatch>();
+  const companies = useSelector(selectCompanies);
 
+  // Fetch companies and collections
   useEffect(() => {
     dispatch(fetchCompanies());
     dispatch(fetchCollections());
   }, []);
+
+  // Calculate just updated
+  useEffect(() => {
+    dispatch({
+      type: "user/setJustUpdated",
+      payload: companies
+        .sort((a, b) => b.updatedAt - a.updatedAt)
+        .slice(0, 10)
+        .map((company) => company.id),
+    });
+    console.log("Just updated: Updated");
+  }, [companies]);
 
   return (
     <NavigationContainer>
@@ -106,7 +120,7 @@ export default function AuthenticatedNavigator() {
                 break;
             }
 
-            if (focused) {
+            if (!focused) {
               iconName = iconName.concat("-outline");
             }
 

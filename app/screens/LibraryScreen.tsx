@@ -2,13 +2,21 @@ import CompanyCard from "../components/CompanyCard";
 import { selectCompanies } from "../redux/companiesSlice";
 import { selectCollections } from "../redux/userSlice";
 import { StatusBar } from "expo-status-bar";
+import { useEffect, useState, useCallback } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 
-function CollectionCarousel({ navigation, data, name, icon }) {
+function CollectionCarousel({ navigation, collection, name, icon }) {
+  const companies = useSelector(selectCompanies);
+
+  // Don't render if collection is empty
+  if (collection.length === 0) {
+    return null;
+  }
+
   return (
     <View>
       {/* Collection Name */}
@@ -18,13 +26,15 @@ function CollectionCarousel({ navigation, data, name, icon }) {
       </View>
       {/* Collection Companies */}
       <FlatList
-        data={data}
+        data={collection.map((id) =>
+          companies.find((company) => company.id === id)
+        )}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <CompanyCard company={item} navigation={navigation} />
         )}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id}
       />
     </View>
   );
@@ -33,7 +43,6 @@ function CollectionCarousel({ navigation, data, name, icon }) {
 export default function LibraryScreen({ navigation }) {
   // Hooks
   const insets: EdgeInsets = useSafeAreaInsets();
-  const companies = useSelector(selectCompanies);
   const collections = useSelector(selectCollections);
 
   return (
@@ -60,27 +69,21 @@ export default function LibraryScreen({ navigation }) {
         {/* Just Updated Collection */}
         <CollectionCarousel
           navigation={navigation}
-          data={companies
-            .sort((a, b) => b.updatedAt - a.updatedAt)
-            .slice(0, 10)}
+          collection={[...collections.justUpdated]}
           name="Just Updated"
           icon="cloud-upload-outline"
         />
         {/* Recently Viewed Collection */}
         <CollectionCarousel
           navigation={navigation}
-          data={companies.filter((company) =>
-            collections.recentlyViewed.includes(company.id)
-          )}
+          collection={[...collections.recentlyViewed]}
           name="Recently Viewed"
           icon="time-outline"
         />
         {/* Bookmarks Collection */}
         <CollectionCarousel
           navigation={navigation}
-          data={companies.filter((company) =>
-            collections.bookmarks.includes(company.id)
-          )}
+          collection={[...collections.bookmarks]}
           name="Bookmarks"
           icon="bookmark-outline"
         />

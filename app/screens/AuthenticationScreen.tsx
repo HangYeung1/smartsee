@@ -18,7 +18,17 @@ export default function AuthenticationScreen() {
               collections: {
                 recentlyViewed: [],
                 bookmarks: [],
-                _order: ["justAdded", "recentlyViewed", "bookmarks"],
+                _order: ["justUpdated", "recentlyViewed", "bookmarks"],
+                _icons: {
+                  justAdded: "cloud-upload-outline",
+                  recentlyViewed: "time-outline",
+                  bookmarks: "bookmark-outline",
+                },
+                _displayNames: {
+                  justAdded: "Just Updated",
+                  recentlyViewed: "Recently Viewed",
+                  bookmarks: "Bookmarks",
+                },
               },
             };
             const userDoc = await setDoc(

@@ -27,7 +27,7 @@ export default function CameraScreen({ navigation }) {
   if (permission.granted === false) {
     return (
       <View className="flex-1">
-        <StatusBar style="dark" />
+        <StatusBar style="light" />
         <View className="flex-1 items-center justify-center bg-white">
           <Pressable
             className="h-12 w-72 items-center justify-center rounded-full bg-gray-100"
