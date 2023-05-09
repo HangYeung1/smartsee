@@ -4,6 +4,7 @@ import { fetchCollections } from "../redux/userSlice";
 import BreakdownScreen from "../screens/BreakdownScreen";
 import CameraScreen from "../screens/CameraScreen";
 import DetectionScreen from "../screens/DetectionScreen";
+import FullCollectionScreen from "../screens/FullCollectionScreen";
 import LibraryScreen from "../screens/LibraryScreen";
 import SearchScreen from "../screens/SearchScreen";
 import SettingsScreen from "../screens/SettingsScreen";
@@ -28,6 +29,7 @@ const cameraName: string = "CameraScreen";
 const detectionName: string = "DetectionScreen";
 const libraryName: string = "LibraryScreen";
 const settingsName: string = "SettingsScreen";
+const fullCollectionName: string = "FullCollectionScreen";
 
 const Stack = createStackNavigator();
 
@@ -51,11 +53,7 @@ function CameraStack() {
     >
       <Stack.Screen name={cameraName} component={CameraScreen} />
       <Stack.Screen name={breakdownName} component={BreakdownScreen} />
-      <Stack.Screen
-        name={settingsName}
-        options={{ gestureEnabled: false, animationEnabled: false }}
-        component={SettingsScreen}
-      />
+      <Stack.Screen name={settingsName} component={SettingsScreen} />
       <Stack.Screen
         name={detectionName}
         options={{ gestureEnabled: false, animationEnabled: false }}
@@ -73,6 +71,10 @@ function LibraryStack() {
     >
       <Stack.Screen name={libraryName} component={LibraryScreen} />
       <Stack.Screen name={breakdownName} component={BreakdownScreen} />
+      <Stack.Screen
+        name={fullCollectionName}
+        component={FullCollectionScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -86,6 +88,8 @@ export default function AuthenticatedNavigator() {
 
   // Fetch companies and collections
   useEffect(() => {
+    dispatch({ type: "user/resetUser" });
+    dispatch({ type: "companies/resetCompanies" });
     dispatch(fetchCompanies());
     dispatch(fetchCollections());
   }, []);

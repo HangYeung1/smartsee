@@ -20,9 +20,28 @@ function CollectionCarousel({ navigation, collection, name, icon }) {
   return (
     <View>
       {/* Collection Name */}
-      <View className="mt-7 flex-row pl-7">
-        <Text className="mr-2.5 text-xl font-bold">{name}</Text>
-        <Ionicons name={icon} size={24} color="black" />
+      <View className="mt-7 flex-row items-center justify-between px-7">
+        <View className="flex-row">
+          <Text className="mr-2.5 text-xl font-bold">{name}</Text>
+          <Ionicons name={icon} size={24} color="black" />
+        </View>
+        <Pressable
+          onPress={() =>
+            navigation.navigate("FullCollectionScreen", {
+              ids: collection,
+              name: name,
+            })
+          }
+        >
+          <View className="flex-row items-center">
+            <Text className="ml-2.5 text-sm text-gray-500">See All</Text>
+            <Ionicons
+              name="chevron-forward-outline"
+              size={16}
+              color="rgb(107,114,128)"
+            />
+          </View>
+        </Pressable>
       </View>
       {/* Collection Companies */}
       <FlatList

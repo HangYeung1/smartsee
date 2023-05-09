@@ -46,8 +46,8 @@ export default function SettingsScreen({ navigation }) {
       {/* Settings Header */}
       <View className="flex-row items-center justify-between px-8 pb-2.5 pt-8">
         <Text className="text-3xl font-bold">Settings</Text>
-        <Pressable>
-          <Ionicons name="settings-outline" size={30} color="black" />
+        <Pressable onPress={() => navigation.goBack()}>
+          <Ionicons name="exit-outline" size={30} color="black" />
         </Pressable>
       </View>
 
