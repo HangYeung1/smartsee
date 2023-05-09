@@ -1,12 +1,16 @@
 import { auth } from "../firebaseConfig";
+import { AppDispatch } from "../redux/store";
 import { StatusBar } from "expo-status-bar";
 import { deleteUser } from "firebase/auth";
 import { View, Pressable, Text, Alert } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useDispatch } from "react-redux";
 
 export default function SettingsScreen({ navigation }) {
   const insets = useSafeAreaInsets();
+  const dispatch = useDispatch<AppDispatch>();
+
   const resetUser = () => {
     Alert.alert(
       "Confirm Reset",
@@ -18,7 +22,11 @@ export default function SettingsScreen({ navigation }) {
         },
         {
           text: "Reset",
-          onPress: () => deleteUser(auth.currentUser),
+          onPress: () => {
+            deleteUser(auth.currentUser);
+            dispatch({ type: "user/resetUser" });
+            dispatch({ type: "companies/resetCompanies" });
+          },
         },
       ]
     );

@@ -67,8 +67,8 @@ const companiesSlice = createSlice({
   name: "companies",
   initialState,
   reducers: {
-    test(state, action) {
-      console.log("test");
+    resetCompanies(state, action) {
+      return initialState;
     },
   },
   extraReducers: (builder) => {
@@ -109,7 +109,7 @@ const companiesSlice = createSlice({
   },
 });
 
-export const { test } = companiesSlice.actions;
+export const { resetCompanies } = companiesSlice.actions;
 export default companiesSlice.reducer;
 
 // Selectors
