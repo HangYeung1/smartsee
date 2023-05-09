@@ -6,6 +6,7 @@ import CameraScreen from "../screens/CameraScreen";
 import DetectionScreen from "../screens/DetectionScreen";
 import LibraryScreen from "../screens/LibraryScreen";
 import SearchScreen from "../screens/SearchScreen";
+import SettingsScreen from "../screens/SettingsScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -26,6 +27,7 @@ const breakdownName: string = "BreakdownScreen";
 const cameraName: string = "CameraScreen";
 const detectionName: string = "DetectionScreen";
 const libraryName: string = "LibraryScreen";
+const settingsName: string = "SettingsScreen";
 
 const Stack = createStackNavigator();
 
@@ -49,6 +51,11 @@ function CameraStack() {
     >
       <Stack.Screen name={cameraName} component={CameraScreen} />
       <Stack.Screen name={breakdownName} component={BreakdownScreen} />
+      <Stack.Screen
+        name={settingsName}
+        options={{ gestureEnabled: false, animationEnabled: false }}
+        component={SettingsScreen}
+      />
       <Stack.Screen
         name={detectionName}
         options={{ gestureEnabled: false, animationEnabled: false }}

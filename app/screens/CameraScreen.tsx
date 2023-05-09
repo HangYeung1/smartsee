@@ -87,7 +87,10 @@ export default function CameraScreen({ navigation }) {
           {/* Top Buttons */}
           <View className="items-end p-6">
             {/* Settings Button */}
-            <Pressable className="h-12 w-12 items-center justify-center rounded-full bg-black/20">
+            <Pressable
+              className="h-12 w-12 items-center justify-center rounded-full bg-black/20"
+              onPress={() => navigation.navigate("SettingsScreen")}
+            >
               <Ionicons name="settings-outline" size={30} color="white" />
             </Pressable>
           </View>
