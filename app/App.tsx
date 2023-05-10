@@ -4,6 +4,7 @@ import UnauthenticatedNavigator from "./navigators/UnauthenticatedNavigator";
 import store from "./redux/store";
 import { onAuthStateChanged } from "firebase/auth";
 import { useState } from "react";
+import { MenuProvider } from "react-native-popup-menu";
 import { Provider } from "react-redux";
 
 export default function App() {
@@ -25,8 +26,10 @@ export default function App() {
 
   // Return the appropriate navigator
   return (
-    <Provider store={store}>
-      {signedIn ? <AuthenticatedNavigator /> : <UnauthenticatedNavigator />}
-    </Provider>
+    <MenuProvider>
+      <Provider store={store}>
+        {signedIn ? <AuthenticatedNavigator /> : <UnauthenticatedNavigator />}
+      </Provider>
+    </MenuProvider>
   );
 }
