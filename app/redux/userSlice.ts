@@ -8,12 +8,18 @@ import {
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 // User interface
+interface DisplayMode {
+  "Just Updated": boolean;
+  "Recently Viewed": boolean;
+  Bookmarks: boolean;
+}
+
 interface UserState {
   collections: {
     justUpdated: string[];
     recentlyViewed: string[];
     bookmarks: string[];
-    _order: string[];
+    _displayMode: DisplayMode;
   };
   status: "idle" | "loading" | "success" | "failed";
 }
@@ -24,7 +30,11 @@ const initialState: UserState = {
     justUpdated: [],
     recentlyViewed: [],
     bookmarks: [],
-    _order: [],
+    _displayMode: {
+      "Just Updated": true,
+      "Recently Viewed": true,
+      Bookmarks: true,
+    },
   },
   status: "idle",
 };
@@ -73,19 +83,20 @@ export const postRecents = createAsyncThunk<
   });
 });
 
-// Post user order to firestore
-export const postOrder = createAsyncThunk<
+// Post user display mode to firestore
+export const postDisplayMode = createAsyncThunk<
   void,
   string,
   {
     dispatch: AppDispatch;
     state: RootState;
   }
->("user/postOrder", async (order: string, thunkAPI) => {
-  thunkAPI.dispatch(setOrder(order));
+>("user/postDisplayMode", async (displayMode: string, thunkAPI) => {
+  thunkAPI.dispatch(updateDisplayMode(displayMode));
   const userDoc = doc(db, "users", auth.currentUser.uid);
   await updateDoc(userDoc, {
-    "collections._order": thunkAPI.getState().user.collections._order,
+    "collections._displayMode":
+      thunkAPI.getState().user.collections._displayMode,
   });
 });
 
@@ -121,9 +132,10 @@ const userSlice = createSlice({
         );
       }
     },
-    // Set order
-    setOrder(state, action) {
-      state.collections._order = action.payload;
+    // Update display mode
+    updateDisplayMode(state, action) {
+      state.collections._displayMode[action.payload] =
+        !state.collections._displayMode[action.payload];
     },
     // Set just updated
     setJustUpdated(state, action) {
@@ -143,6 +155,7 @@ const userSlice = createSlice({
         console.log("Collections: Successful!");
         state.collections.bookmarks = action.payload.bookmarks;
         state.collections.recentlyViewed = action.payload.recentlyViewed;
+        state.collections._displayMode = action.payload._displayMode;
         state.status = "success";
       })
       .addCase(fetchCollections.rejected, (state, action) => {
@@ -179,23 +192,23 @@ const userSlice = createSlice({
         console.log("Bookmarks: Failed.");
       })
 
-      // Order
-      .addCase(postOrder.pending, (state, action) => {
+      // Display mode
+      .addCase(postDisplayMode.pending, (state, action) => {
         // Log pending
-        console.log("Order: Updating...");
+        console.log("Display Mode: Updating...");
       })
-      .addCase(postOrder.fulfilled, (state, action) => {
+      .addCase(postDisplayMode.fulfilled, (state, action) => {
         // Log success
-        console.log("Order: Successful!");
+        console.log("Display Mode: Successful!");
       })
-      .addCase(postOrder.rejected, (state, action) => {
+      .addCase(postDisplayMode.rejected, (state, action) => {
         // Log failure
-        console.log("Order: Failed.");
+        console.log("Display Mode: Failed.");
       });
   },
 });
 
-export const { resetUser, updateRecents, updateBookmarks, setOrder } =
+export const { resetUser, updateRecents, updateBookmarks, updateDisplayMode } =
   userSlice.actions;
 export default userSlice.reducer;
 
@@ -208,4 +221,9 @@ export const selectCollections = createSelector(
 export const selectBookmarks = createSelector(
   (state) => state.user.collections.bookmarks,
   (bookmarks) => bookmarks
+);
+
+export const selectDisplayMode = createSelector(
+  (state) => state.user.collections._displayMode,
+  (displayMode) => displayMode
 );

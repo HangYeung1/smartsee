@@ -18,16 +18,10 @@ export default function AuthenticationScreen() {
               collections: {
                 recentlyViewed: [],
                 bookmarks: [],
-                _order: ["justUpdated", "recentlyViewed", "bookmarks"],
-                _icons: {
-                  justAdded: "cloud-upload-outline",
-                  recentlyViewed: "time-outline",
-                  bookmarks: "bookmark-outline",
-                },
-                _displayNames: {
-                  justAdded: "Just Updated",
-                  recentlyViewed: "Recently Viewed",
-                  bookmarks: "Bookmarks",
+                _displayMode: {
+                  justAdded: true,
+                  recentlyViewed: true,
+                  bookmarks: true,
                 },
               },
             };
