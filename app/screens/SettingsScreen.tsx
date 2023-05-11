@@ -1,7 +1,8 @@
-import { auth } from "../firebaseConfig";
+import { auth, db } from "../firebaseConfig";
 import { AppDispatch } from "../redux/store";
 import { StatusBar } from "expo-status-bar";
 import { deleteUser } from "firebase/auth";
+import { deleteDoc, doc } from "firebase/firestore";
 import { View, Pressable, Text, Alert } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -24,6 +25,7 @@ export default function SettingsScreen({ navigation }) {
           text: "Reset",
           onPress: () => {
             deleteUser(auth.currentUser);
+            deleteDoc(doc(db, "users", auth.currentUser.uid));
             dispatch({ type: "user/resetUser" });
             dispatch({ type: "companies/resetCompanies" });
           },

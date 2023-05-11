@@ -39,7 +39,7 @@ export default function SearchScreen({ navigation }) {
 
   useEffect(() => {
     // When company filter changes, change what companies are displayed
-    let filteredCompanies = companies;
+    let filteredCompanies = JSON.parse(JSON.stringify(companies));
     if (activeIndustries.length > 0) {
       filteredCompanies = filteredCompanies.filter((company) =>
         activeIndustries.includes(company.industry)
@@ -186,6 +186,7 @@ export default function SearchScreen({ navigation }) {
               children={
                 <Ionicons name="filter-outline" size={30} color="black" />
               }
+              customStyles={{ TriggerTouchableComponent: Pressable }}
             />
             <MenuOptions
               customStyles={{
