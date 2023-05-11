@@ -28,7 +28,7 @@ const { Popover } = renderers;
 export default function SearchScreen({ navigation }) {
   // State
   const [search, setSearch] = useState<string>("");
-  const [searchMode, setSearchMode] = useState<string>("");
+  const [searchMode, setSearchMode] = useState<string>("Best Match");
   const [activeIndustries, setActiveIndustries] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState([]);
 
@@ -39,7 +39,7 @@ export default function SearchScreen({ navigation }) {
 
   useEffect(() => {
     // When company filter changes, change what companies are displayed
-    let filteredCompanies = JSON.parse(JSON.stringify(companies));
+    let filteredCompanies = companies;
     if (activeIndustries.length > 0) {
       filteredCompanies = filteredCompanies.filter((company) =>
         activeIndustries.includes(company.industry)
@@ -85,7 +85,7 @@ export default function SearchScreen({ navigation }) {
     }
 
     setSearchResults(filteredCompanies);
-  }, [search, activeIndustries, searchMode]);
+  }, [search, activeIndustries, searchMode, companies]);
 
   // Handle filter changes
   const handleFilterChange = (change: string) => {
@@ -123,6 +123,45 @@ export default function SearchScreen({ navigation }) {
           {button === searchMode ? button + " ✓" : button}
         </Text>
       </MenuOption>
+    ));
+  };
+
+  const filterButtons = () => {
+    let orderedIndustries = [];
+
+    // Hoist active industries to top
+    activeIndustries.forEach((industry) => {
+      orderedIndustries.push(
+        industries.find((industryObj) => {
+          return industryObj.name === industry;
+        })
+      );
+    });
+
+    // Add remaining industries
+    industries.forEach((industryObj) => {
+      if (!activeIndustries.includes(industryObj.name)) {
+        orderedIndustries.push(industryObj);
+      }
+    });
+
+    return orderedIndustries.map((industryObj) => (
+      <Pressable
+        className="mr-1.5 items-center justify-center rounded-full bg-black"
+        key={industryObj.name}
+        onPress={() => handleFilterChange(industryObj.name)}
+        style={[
+          {
+            backgroundColor: activeIndustries.includes(industryObj.name)
+              ? "mediumseagreen"
+              : "black",
+          },
+        ]}
+      >
+        <Text className="mx-5 my-2 text-sm text-white ">
+          {industryObj.name}
+        </Text>
+      </Pressable>
     ));
   };
 
@@ -178,24 +217,7 @@ export default function SearchScreen({ navigation }) {
           contentContainerStyle={{ marginLeft: 25, paddingRight: 40 }}
         >
           {/* Button for Each Industry */}
-          {industries.map((industryObj) => (
-            <Pressable
-              className="mr-1.5 items-center justify-center rounded-full bg-black"
-              key={industryObj.name}
-              onPress={() => handleFilterChange(industryObj.name)}
-              style={[
-                {
-                  backgroundColor: activeIndustries.includes(industryObj.name)
-                    ? "mediumseagreen"
-                    : "black",
-                },
-              ]}
-            >
-              <Text className="mx-5 my-2 text-sm text-white ">
-                {industryObj.name}
-              </Text>
-            </Pressable>
-          ))}
+          {filterButtons()}
         </ScrollView>
       </View>
 
@@ -203,7 +225,7 @@ export default function SearchScreen({ navigation }) {
       <View className="flex-1 justify-center">
         {/* Number of Results Display */}
         <Text className="mb-2.5 mt-7 pl-7 text-xl font-bold">
-          {search === ""
+          {search === "" && activeIndustries.length === 0
             ? "All Companies"
             : searchResults.length + " Companies Found"}
         </Text>

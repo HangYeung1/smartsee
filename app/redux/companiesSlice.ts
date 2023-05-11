@@ -82,8 +82,10 @@ const companiesSlice = createSlice({
         // Log success
         console.log("Companies: Successful!");
 
-        // Set companies
-        state.list = action.payload;
+        // Set alphabetized company list
+        state.list = action.payload.sort((a: Company, b: Company) =>
+          a.name.localeCompare(b.name)
+        );
 
         // Calculate industries
         action.payload.forEach((company: any) => {
@@ -96,6 +98,11 @@ const companiesSlice = createSlice({
               }
             });
           }
+
+          // Alphabetize industries
+          state.industries.sort((a: Industry, b: Industry) =>
+            a.name.localeCompare(b.name)
+          );
 
           // Set status to match
           state.status = "success";
