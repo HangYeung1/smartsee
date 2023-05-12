@@ -6,8 +6,8 @@ import {
 } from "../redux/userSlice";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Image, Pressable, Text, View, ScrollView } from "react-native";
 import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +19,8 @@ export default function BreakdownScreen({ route, navigation }) {
   // Check if company is bookmarked
   const dispatch = useDispatch<AppDispatch>();
   const bookmarks = useSelector(selectBookmarks);
+  const [showDescription, setShowDescription] = useState<boolean>(false);
+
   let bookmarked: boolean = bookmarks.includes(route.params.company.id);
 
   // Add company to recents
@@ -38,6 +40,7 @@ export default function BreakdownScreen({ route, navigation }) {
     esgSocial,
     esgGovernance,
     controversy,
+    lastUpdated,
   } = route.params.company;
 
   // Calculate ESG level
@@ -93,8 +96,26 @@ export default function BreakdownScreen({ route, navigation }) {
       break;
   }
 
+  const scoreColor = (score: number): string => {
+    if (score <= 2.5) {
+      return "green";
+    } else if (score <= 5) {
+      return "#fada5e";
+    } else if (score <= 7.5) {
+      return "orange";
+    } else if (score <= 10) {
+      return "red";
+    } else {
+      return "darkred";
+    }
+  };
+
   const handleBookmark = () => {
     dispatch(postBookmarks(id));
+  };
+
+  const handleShowDescription = () => {
+    setShowDescription(!showDescription);
   };
 
   return (
@@ -156,17 +177,25 @@ export default function BreakdownScreen({ route, navigation }) {
       </Pressable>
 
       {/* Company Info */}
-      <View className="-mt-6 flex-1  rounded-3xl bg-white px-7 pt-7" style={{}}>
+      <ScrollView
+        className="-mt-6 flex-1 rounded-3xl bg-white pt-7"
+        showsVerticalScrollIndicator={false}
+      >
         {/* Header */}
-        <View className="mb-2.5 flex-row items-center justify-between">
+        <View className="mb-2.5 flex-row justify-between px-7">
           {/* Company Name and Category */}
           <View>
             <Text className="text-sm font-bold text-gray-500">{industry}</Text>
-            <Text className="text-3xl font-bold">{name}</Text>
+
+            <Text className="pr-6 text-3xl font-bold">{name}</Text>
+            {/* Tags */}
+            <Text className="mt-1 text-sm font-semibold text-gray-500">
+              {esgLevel + " ESG Risk • " + controversyLevel + " Controversy"}
+            </Text>
           </View>
 
           {/* Bookmark Button */}
-          <Pressable onPress={handleBookmark}>
+          <Pressable className="mt-5" onPress={handleBookmark}>
             <Ionicons
               name={bookmarked ? "bookmark" : "bookmark-outline"}
               size={30}
@@ -175,30 +204,81 @@ export default function BreakdownScreen({ route, navigation }) {
           </Pressable>
         </View>
 
-        {/* Tags */}
-        <Text className="text-sm text-gray-500">
-          {esgLevel + " ESG Risk • " + controversyLevel + " Controversy"}
-        </Text>
-
-        {/* Detail Breakdown */}
-        <View className="my-4 flex-row">
-          {/* Icon */}
-          <View className="h-10 w-10 items-center justify-center rounded-full bg-gray-100">
-            <Ionicons name="analytics-outline" size={30} color={esgColor} />
+        <ScrollView
+          className="mt-3"
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ marginLeft: 25, paddingRight: 55 }}
+        >
+          {/* ESG */}
+          <View
+            className="mr-3 h-24 w-32 items-center justify-center rounded-2xl"
+            style={{ backgroundColor: esgColor }}
+          >
+            <Text className="text-sm font-bold text-white">ESG Risk</Text>
+            <Text className="mt-0.5 text-5xl font-bold text-white">{esg}</Text>
           </View>
-
-          {/* Text */}
-          <View className="ml-3.5">
-            <Text className="text-xl font-bold">ESG Risk: {esg}</Text>
-            <Text
-              className="text-ellipsis pr-12 text-gray-500"
-              numberOfLines={3}
-            >
-              {description}
+          {/* Environmental */}
+          <View
+            className="mr-3 h-24 w-32 items-center justify-center rounded-2xl"
+            style={{ backgroundColor: scoreColor(esgEnvironment) }}
+          >
+            <Text className="text-sm font-bold text-white">
+              Environment Risk
+            </Text>
+            <Text className="mt-0.5 text-5xl font-bold text-white">
+              {esgEnvironment}
             </Text>
           </View>
+          {/* Social */}
+          <View
+            className="mr-3 h-24 w-32 items-center justify-center rounded-2xl"
+            style={{ backgroundColor: scoreColor(esgSocial) }}
+          >
+            <Text className="text-sm font-bold text-white">Social Risk</Text>
+            <Text className="mt-0.5 text-5xl font-bold text-white">
+              {esgSocial}
+            </Text>
+          </View>
+          {/* Governance */}
+          <View
+            className="mr-3 h-24 w-32 items-center justify-center rounded-2xl"
+            style={{ backgroundColor: scoreColor(esgGovernance) }}
+          >
+            <Text className="text-sm font-bold text-white">
+              Governance Risk
+            </Text>
+            <Text className="mt-0.5 text-5xl font-bold text-white">
+              {esgGovernance}
+            </Text>
+          </View>
+          {/* Controversy */}
+          <View
+            className="mr-3 h-24 w-32 items-center justify-center rounded-2xl"
+            style={{ backgroundColor: controversyColor }}
+          >
+            <Text className="text-sm font-bold text-white">Controversy</Text>
+            <Text className="mt-0.5 text-5xl font-bold text-white">
+              {controversy}
+            </Text>
+          </View>
+        </ScrollView>
+
+        {/* Description */}
+        <View className="my-4 mb-16 px-7">
+          <Text
+            className="text-ellipsis pr-4 text-justify text-gray-500"
+            numberOfLines={showDescription ? 0 : 4}
+          >
+            {description}
+          </Text>
+          <Pressable className="my-1 items-end" onPress={handleShowDescription}>
+            <Text className="text-bold text-ellipsis pr-4 text-gray-800">
+              {showDescription ? "Close" : "Show All"}
+            </Text>
+          </Pressable>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
