@@ -1,7 +1,7 @@
 import CompanyCard from "../components/CompanyCard";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { selectCompanies } from "../redux/companiesSlice";
 import { selectIndustries } from "../redux/companiesSlice";
-import { StatusBar } from "expo-status-bar";
 import Fuse from "fuse.js";
 import { useState, useEffect } from "react";
 import {
@@ -174,7 +174,7 @@ export default function SearchScreen({ navigation }) {
         paddingRight: insets.right,
       }}
     >
-      <StatusBar style="auto" />
+      <FocusAwareStatusBar style="dark" />
 
       {/* Search Header */}
       <View>

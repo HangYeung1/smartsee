@@ -1,6 +1,6 @@
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { auth } from "../firebaseConfig";
 import { db } from "../firebaseConfig";
-import { StatusBar } from "expo-status-bar";
 import { signInAnonymously } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { Pressable, Text, Alert } from "react-native";
@@ -44,7 +44,7 @@ export default function AuthenticationScreen() {
 
   return (
     <SafeAreaView className="flex-1 items-center justify-center bg-white">
-      <StatusBar style="light" />
+      <FocusAwareStatusBar style="dark" />
       {/* Sign in as Guest */}
       <Pressable
         className="mb-4 flex h-12 w-64 flex-row items-center justify-center rounded-full bg-gray-500"

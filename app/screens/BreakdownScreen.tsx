@@ -1,3 +1,4 @@
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { AppDispatch } from "../redux/store";
 import {
   postBookmarks,
@@ -5,7 +6,6 @@ import {
   selectBookmarks,
 } from "../redux/userSlice";
 import { LinearGradient } from "expo-linear-gradient";
-import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { Image, Pressable, Text, View, ScrollView } from "react-native";
 import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
@@ -126,7 +126,7 @@ export default function BreakdownScreen({ route, navigation }) {
         paddingRight: insets.right,
       }}
     >
-      <StatusBar style="light" />
+      <FocusAwareStatusBar style="light" />
 
       {/* Company Image */}
       <View className="h-2/5 w-full items-center justify-center backdrop-blur-lg">

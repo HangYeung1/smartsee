@@ -1,6 +1,6 @@
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { Camera, CameraType } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
-import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { Pressable, Text, View, Image } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -27,7 +27,7 @@ export default function CameraScreen({ navigation }) {
   if (permission.granted === false) {
     return (
       <View className="flex-1">
-        <StatusBar style="light" />
+        <FocusAwareStatusBar style="light" />
         <View className="flex-1 items-center justify-center bg-white">
           <Pressable
             className="h-12 w-72 items-center justify-center rounded-full bg-gray-100"
@@ -78,7 +78,7 @@ export default function CameraScreen({ navigation }) {
         paddingRight: insets.right,
       }}
     >
-      <StatusBar style="light" />
+      <FocusAwareStatusBar style="light" />
 
       {/* Camera */}
       <Camera className="flex-1" type={type} ref={(ref) => setCamera(ref)}>

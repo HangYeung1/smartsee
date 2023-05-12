@@ -1,9 +1,9 @@
 import CompanyCard from "../components/CompanyCard";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { selectCompanies } from "../redux/companiesSlice";
 import { AppDispatch } from "../redux/store";
 import { postDisplayMode, selectCollections } from "../redux/userSlice";
 import { selectDisplayMode } from "../redux/userSlice";
-import { StatusBar } from "expo-status-bar";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import {
@@ -102,7 +102,7 @@ export default function LibraryScreen({ navigation }) {
         paddingRight: insets.right,
       }}
     >
-      <StatusBar style="auto" />
+      <FocusAwareStatusBar style="dark" />
 
       {/* Library Header */}
       <View className="flex-row items-center justify-between px-8 pb-2.5 pt-8">

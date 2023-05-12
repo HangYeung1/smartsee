@@ -1,6 +1,6 @@
 import CompanyCard from "../components/CompanyCard";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { selectCompanies } from "../redux/companiesSlice";
-import { StatusBar } from "expo-status-bar";
 import { View, Text, FlatList, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -21,7 +21,7 @@ export default function FullCollectionScreen({ navigation, route }) {
         paddingRight: insets.right,
       }}
     >
-      <StatusBar style="auto" />
+      <FocusAwareStatusBar style="dark" />
 
       {/* Collection Header */}
       <View className="flex-row items-center justify-between px-8 pb-2.5 pt-8">

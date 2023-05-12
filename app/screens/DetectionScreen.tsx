@@ -1,6 +1,6 @@
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { uploadAsync } from "expo-file-system";
 import { FileSystemUploadType } from "expo-file-system";
-import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { Pressable, Text, View, Image } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -74,7 +74,7 @@ export default function DetectionScreen({ route, navigation }) {
         paddingRight: insets.right,
       }}
     >
-      <StatusBar style="light" />
+      <FocusAwareStatusBar style="light" />
       <View className="flex-1">
         {/* Image */}
         <Image

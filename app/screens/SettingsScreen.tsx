@@ -1,6 +1,6 @@
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { auth, db } from "../firebaseConfig";
 import { AppDispatch } from "../redux/store";
-import { StatusBar } from "expo-status-bar";
 import { deleteUser } from "firebase/auth";
 import { deleteDoc, doc } from "firebase/firestore";
 import { View, Pressable, Text, Alert } from "react-native";
@@ -43,7 +43,7 @@ export default function SettingsScreen({ navigation }) {
         paddingRight: insets.right,
       }}
     >
-      <StatusBar style="auto" />
+      <FocusAwareStatusBar style="dark" />
 
       {/* Settings Header */}
       <View className="flex-row items-center justify-between px-8 pb-2.5 pt-8">
