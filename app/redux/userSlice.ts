@@ -226,3 +226,8 @@ export const selectDisplayMode = createSelector(
   (state) => state.user.collections._displayMode,
   (displayMode) => displayMode
 );
+
+export const selectUserLoaded = createSelector(
+  (state) => state.user.status,
+  (status) => status === "success"
+);

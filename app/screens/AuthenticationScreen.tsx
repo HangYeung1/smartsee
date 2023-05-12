@@ -19,9 +19,9 @@ export default function AuthenticationScreen() {
                 recentlyViewed: [],
                 bookmarks: [],
                 _displayMode: {
-                  justAdded: true,
-                  recentlyViewed: true,
-                  bookmarks: true,
+                  "Just Updated": true,
+                  "Recently Viewed": true,
+                  Bookmarks: true,
                 },
               },
             };

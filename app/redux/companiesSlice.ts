@@ -131,3 +131,8 @@ export const selectIndustries = createSelector(
   (state) => state.companies.industries,
   (industries) => industries
 );
+
+export const selectCompaniesLoaded = createSelector(
+  (state) => state.companies.status,
+  (status) => status === "success"
+);

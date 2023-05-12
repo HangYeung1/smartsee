@@ -1,7 +1,11 @@
-import { fetchCompanies, selectCompanies } from "../redux/companiesSlice";
+import {
+  fetchCompanies,
+  selectCompanies,
+  selectCompaniesLoaded,
+} from "../redux/companiesSlice";
 import { Company } from "../redux/companiesSlice";
 import { AppDispatch } from "../redux/store";
-import { fetchUser } from "../redux/userSlice";
+import { fetchUser, selectUserLoaded } from "../redux/userSlice";
 import BreakdownScreen from "../screens/BreakdownScreen";
 import CameraScreen from "../screens/CameraScreen";
 import DetectionScreen from "../screens/DetectionScreen";
@@ -12,8 +16,9 @@ import SettingsScreen from "../screens/SettingsScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import { Text } from "react-native";
+import { Text, ActivityIndicator, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -86,6 +91,8 @@ export default function AuthenticatedNavigator() {
   // Redux hooks
   const dispatch = useDispatch<AppDispatch>();
   const companies = useSelector<Company[]>(selectCompanies);
+  const userLoaded = useSelector<boolean>(selectUserLoaded);
+  const companiesLoaded = useSelector<boolean>(selectCompaniesLoaded);
 
   // Fetch companies and collections
   useEffect(() => {
@@ -107,6 +114,15 @@ export default function AuthenticatedNavigator() {
     });
     console.log("Just updated: Updated");
   }, [companies]);
+
+  if (!userLoaded || !companiesLoaded) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <StatusBar style="dark" />
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <NavigationContainer>
