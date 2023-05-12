@@ -40,15 +40,12 @@ const initialState: UserState = {
 };
 
 // Aysnc Thunks
-// Fetch user collections from firestore
-export const fetchCollections = createAsyncThunk(
-  "user/fetchCollections",
-  async () => {
-    const userDoc = doc(db, "users", auth.currentUser.uid);
-    const response = await getDoc(userDoc);
-    return response.data().collections;
-  }
-);
+// Fetch user from firestore
+export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
+  const userDoc = doc(db, "users", auth.currentUser.uid);
+  const response = await getDoc(userDoc);
+  return response.data();
+});
 
 // Post user bookmarks to firestore
 export const postBookmarks = createAsyncThunk<
@@ -145,22 +142,24 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Collections
-      .addCase(fetchCollections.pending, (state, action) => {
+      .addCase(fetchUser.pending, (state, action) => {
         // Log pending
-        console.log("Collections: Fetching...");
+        console.log("User: Fetching...");
         state.status = "loading";
       })
-      .addCase(fetchCollections.fulfilled, (state, action) => {
+      .addCase(fetchUser.fulfilled, (state, action) => {
         // Log success and state to match
-        console.log("Collections: Successful!");
-        state.collections.bookmarks = action.payload.bookmarks;
-        state.collections.recentlyViewed = action.payload.recentlyViewed;
-        state.collections._displayMode = action.payload._displayMode;
+        console.log("User: Successful!");
+        state.collections.bookmarks = action.payload.collections.bookmarks;
+        state.collections.recentlyViewed =
+          action.payload.collections.recentlyViewed;
+        state.collections._displayMode =
+          action.payload.collections._displayMode;
         state.status = "success";
       })
-      .addCase(fetchCollections.rejected, (state, action) => {
+      .addCase(fetchUser.rejected, (state, action) => {
         // Log failure
-        console.log("Collections: Failed.");
+        console.log("User: Failed.");
         state.status = "failed";
       })
 

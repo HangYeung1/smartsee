@@ -7,7 +7,7 @@ import {
 import { collection, getDocs } from "firebase/firestore";
 
 // Interfaces
-interface Company {
+export interface Company {
   id: string;
   name: string;
   industry: string;
@@ -18,6 +18,7 @@ interface Company {
   esgSocial: number;
   esgGovernance: number;
   controversy: number;
+  lastUpdated: number;
 }
 
 interface Industry {
@@ -57,6 +58,7 @@ export const fetchCompanies = createAsyncThunk(
         esgSocial: extracted.esgSocial,
         esgGovernance: extracted.esgGovernance,
         controversy: extracted.controversy,
+        lastUpdated: extracted.lastUpdated,
       };
     });
   }

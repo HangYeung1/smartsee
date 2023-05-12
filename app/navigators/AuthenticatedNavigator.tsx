@@ -1,6 +1,7 @@
 import { fetchCompanies, selectCompanies } from "../redux/companiesSlice";
+import { Company } from "../redux/companiesSlice";
 import { AppDispatch } from "../redux/store";
-import { fetchCollections } from "../redux/userSlice";
+import { fetchUser } from "../redux/userSlice";
 import BreakdownScreen from "../screens/BreakdownScreen";
 import CameraScreen from "../screens/CameraScreen";
 import DetectionScreen from "../screens/DetectionScreen";
@@ -84,24 +85,25 @@ const Tab = createBottomTabNavigator();
 export default function AuthenticatedNavigator() {
   // Redux hooks
   const dispatch = useDispatch<AppDispatch>();
-  const companies = useSelector(selectCompanies);
+  const companies = useSelector<Company[]>(selectCompanies);
 
   // Fetch companies and collections
   useEffect(() => {
     dispatch({ type: "user/resetUser" });
     dispatch({ type: "companies/resetCompanies" });
     dispatch(fetchCompanies());
-    dispatch(fetchCollections());
+    dispatch(fetchUser());
   }, []);
 
   // Calculate just updated
   useEffect(() => {
+    const justUpdated: Company[] = JSON.parse(JSON.stringify(companies))
+      .sort((a, b) => b.lastUpdated - a.lastUpdated)
+      .slice(0, 10)
+      .map((company) => company.id);
     dispatch({
       type: "user/setJustUpdated",
-      payload: companies
-        .sort((a, b) => b.updatedAt - a.updatedAt)
-        .slice(0, 10)
-        .map((company) => company.id),
+      payload: justUpdated,
     });
     console.log("Just updated: Updated");
   }, [companies]);
