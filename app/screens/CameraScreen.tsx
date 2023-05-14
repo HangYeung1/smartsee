@@ -11,6 +11,7 @@ export default function CameraScreen({ navigation }) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [camera, setCamera] = useState<Camera>(null);
   const [type, setType] = useState(CameraType.back);
+  const [cameraReady, setCameraReady] = useState<boolean>(true);
 
   // Get safe area insets
   const insets = useSafeAreaInsets();
@@ -63,9 +64,11 @@ export default function CameraScreen({ navigation }) {
 
   // Take a picture
   const takePicture = async () => {
+    setCameraReady(false);
     if (camera) {
       const data = await camera.takePictureAsync({ quality: 1 });
       navigation.navigate("DetectionScreen", { imageUri: data.uri });
+      setTimeout(() => setCameraReady(true), 100);
     }
   };
 
@@ -107,7 +110,7 @@ export default function CameraScreen({ navigation }) {
             {/* Take Picture Button */}
             <Pressable
               className="h-24 w-24 items-center justify-center rounded-full bg-black/20"
-              onPress={takePicture}
+              onPress={cameraReady ? takePicture : null}
             >
               <View className="h-20 w-20 rounded-full border-8 border-white" />
             </Pressable>
