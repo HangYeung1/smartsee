@@ -28,13 +28,34 @@ export default function DetectionScreen({ route, navigation }) {
 
   // Model to database binding -- move to firestore
   const modelToDbBinding = {
-    adidas: "adidas AG",
-    adidas1: "adidas AG",
+    amazon: "Amazon.com, Inc.",
+    apple: "Apple Inc.",
+    bankofamerica: "Bank of America Corporation",
     boeing: "The Boeing Company",
     boeing_text: "The Boeing Company",
+    chevron: "Chevron Corporation",
+    cisco: "Cisco Systems, Inc.",
+    gap: "The Gap, Inc.",
+    facebook: "Meta Platforms, Inc.",
+    ibm: "International Business Machines Corporation",
+    intel: "Intel Corporation",
+    hersheys: "The Hershey Company",
+    mcdonalds: "McDonald's Corporation",
+    mcdonalds_text: "McDonald's Corporation",
+    oracle: "Oracle Corporation",
+    pepsi: "PepsiCo, Inc.",
+    walmart: "Walmart Inc.",
+    walmart_text: "Walmart Inc.",
+    visa: "Visa Inc.",
+    microsoft: "Microsoft Corporation",
+    "t-mobile": "T-Mobile US, Inc.",
+    costco: "Costco Wholesale Corporation",
+    nike: "NIKE, Inc.",
+    nike_text: "NIKE, Inc.",
     cocacola: "The Coca-Cola Company",
     coke: "The Coca-Cola Company",
-    apple: "Apple Inc.",
+    adidas: "adidas AG",
+    adidas1: "adidas AG",
   };
 
   useEffect(() => {

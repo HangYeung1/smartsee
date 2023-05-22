@@ -91,7 +91,13 @@ const companiesSlice = createSlice({
 
         // Calculate industries
         action.payload.forEach((company: any) => {
-          if (!Object.keys(state.industries).includes(company.industry)) {
+          if (
+            !state.industries
+              .map((industry: any) => {
+                return industry.name;
+              })
+              .includes(company.industry)
+          ) {
             state.industries.push({ name: company.industry, count: 1 });
           } else {
             state.industries.forEach((industry: any) => {
@@ -105,6 +111,8 @@ const companiesSlice = createSlice({
           state.industries.sort((a: Industry, b: Industry) =>
             a.name.localeCompare(b.name)
           );
+
+          console.log(state.industries);
 
           // Set status to match
           state.status = "success";
