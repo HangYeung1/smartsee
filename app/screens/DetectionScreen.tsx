@@ -62,7 +62,7 @@ export default function DetectionScreen({ route, navigation }) {
     const getPredictions = async () => {
       try {
         const response = await uploadAsync(
-          "http:/192.168.1.205:4259/logo-detection",
+          "http:/192.168.1.204:4259/logo-detection",
           imageUri,
           {
             httpMethod: "POST",

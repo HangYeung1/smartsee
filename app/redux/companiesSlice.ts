@@ -112,8 +112,6 @@ const companiesSlice = createSlice({
             a.name.localeCompare(b.name)
           );
 
-          console.log(state.industries);
-
           // Set status to match
           state.status = "success";
         });

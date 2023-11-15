@@ -2,7 +2,7 @@ import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import { Camera, CameraType } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
 import { useEffect, useState } from "react";
-import { Pressable, Text, View, Image } from "react-native";
+import { Pressable, Text, View, Image, Alert } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -104,6 +104,7 @@ export default function CameraScreen({ navigation }) {
             <Pressable
               className="h-12 w-12 items-center justify-center rounded-full bg-black/20"
               onPress={pickImageAsync}
+              // onPress={() => Alert.alert("Temporarily Disabled for Demo")}
             >
               <Ionicons name="images-outline" size={30} color="white" />
             </Pressable>
@@ -111,6 +112,7 @@ export default function CameraScreen({ navigation }) {
             <Pressable
               className="h-24 w-24 items-center justify-center rounded-full bg-black/20"
               onPress={cameraReady ? takePicture : null}
+              // onPress={() => Alert.alert("Temporarily Disabled for Demo")}
             >
               <View className="h-20 w-20 rounded-full border-8 border-white" />
             </Pressable>
