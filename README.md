@@ -6,7 +6,7 @@
 
 SmartSee is a mobile app that allows users to take an image of a company's logo to see more information regarding the company's environmental, social, and governance (ESG) sustainability. From this, users can better align purchasing decisions with personal beliefs.
 
-Developed by [Hang Yeung](https://github.com/HangYeung1) and [Jonathan Doredela](https://github.com/jonathanyeetmon) for Novi Incubator 2022-2023.
+Developed by [Hang Yeung](https://github.com/HangYeung1) and [Jonathan Doredla](https://github.com/jonathanyeetmon) for Novi Incubator 2022-2023.
 
 ## Modules
 
