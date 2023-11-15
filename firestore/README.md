@@ -1,4 +1,8 @@
-# Database Structure
+# Firestore Database
+
+User data (recently viewed, liked, saved lists) and ESG data are stored on Google Firebase. [/website](/upload) contains the script for uploading scraped ESG data. Below is the structure of the database.
+
+## Database Structure
 
 ```
 Database
@@ -12,7 +16,7 @@ Database
 | | - ...
 ```
 
-# Company Format
+## Company Format
 
 ```
 Company ID
@@ -28,7 +32,7 @@ Company ID
 | - controversy: number
 ```
 
-# User Format
+## User Format
 
 ```
 User ID
@@ -41,7 +45,7 @@ User ID
 | | - bookmarks: string[]
 ```
 
-# Security Rules for Database
+## Security Rules for Database
 
 ```
 rules_version = '2';
@@ -58,3 +62,4 @@ service cloud.firestore {
   }
 }
 ```
+
