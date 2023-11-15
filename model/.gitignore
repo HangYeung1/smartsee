@@ -3,3 +3,4 @@ openlogo/
 datasets/
 .ipynb_checkpoints/
 __pycache__/
+logo-det.pt
