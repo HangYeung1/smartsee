@@ -12,7 +12,6 @@ Developed by [Hang Yeung](https://github.com/HangYeung1) and [Jonathan Doredla](
 
 - Website - [/website](/website)
 
-  - To be uploaded...
   - The website showcases SmartSee's mobile app and goals
 
 - Mobile App - [/app](/app)
