@@ -32,7 +32,6 @@ Developed by [Hang Yeung](https://github.com/HangYeung1) and [Jonathan Doredla](
 
 - Web Scraper - [/scraper](/scraper)
 
-  - To be uploaded...
   - Company ESG is scraped from Yahoo Finance using Selenium
 
 - Firestore Database - [/firestore](/firestore)
